@@ -12,6 +12,7 @@ export class ListFridgesComponent implements OnInit {
   listFridges$!: Observable<any[]>;
   listModel$!: Observable<any[]>;
 
+  countFridges:any=[]
   listModel:any=[]
 
   // Map to display data associate with foreign keys
@@ -26,8 +27,17 @@ export class ListFridgesComponent implements OnInit {
 
     this.refreshFridgeModelNameMap();
     this.refreshFridgeModelProductionYearMap();
+    this.countOfFridges();
   }
 
+  // Counting the length of fridges
+  countOfFridges() {
+    this.fridgeService.listModels().subscribe(data => {
+      this.countFridges = data;
+    })
+  }
+
+  // Get fridge model by id
   refreshFridgeModelNameMap() {
     this.fridgeService.listModels().subscribe(data => {
       this.listModel = data;
@@ -38,6 +48,7 @@ export class ListFridgesComponent implements OnInit {
     })
   }
 
+  // Get fridge production year by id
   refreshFridgeModelProductionYearMap() {
     this.fridgeService.listModels().subscribe(data => {
       this.listModel = data;

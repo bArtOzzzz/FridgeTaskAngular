@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
   selector: 'app-add-fridge',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddFridgeComponent implements OnInit {
 
-  constructor() { }
+  modelList$!: Observable<any[]>;
+
+  constructor(private fridgeService: FridgeService) { }
 
   ngOnInit(): void {
+    this.modelList$ = this.fridgeService.listModels();
+  }
+
+  createFridge() {
+    
   }
 
 }

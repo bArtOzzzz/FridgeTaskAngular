@@ -11201,4 +11201,14 @@
   .list-group-item.disabled:hover {
     color: #5c507c;
   }
+
+  .button-container {
+    margin-left: 10px;
+}
   
+.add-button {
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  margin-top: 2em;
+}

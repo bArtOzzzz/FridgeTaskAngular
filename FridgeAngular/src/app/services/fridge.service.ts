@@ -14,7 +14,15 @@ export class FridgeService {
     return this.http.get<any>(this.baseUrl + '/fridge');
   }
 
+  createFridge(data: any) {
+    return this.http.post(this.baseUrl + '/fridge', data);
+  }
+
   listModels():Observable<any[]> {
     return this.http.get<any>(this.baseUrl + '/model');
+  }
+
+  viewFridge(id: string):Observable<any[]> {
+    return this.http.get<any>(this.baseUrl + '/fridgeProduct/' + id + '/product');
   }
 }

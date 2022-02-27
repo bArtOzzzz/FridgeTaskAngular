@@ -5,8 +5,8 @@ import { ViewFridgeComponent } from './view-fridge/view-fridge.component';
 import { AddFridgeComponent } from './add-fridge/add-fridge.component';
 import { EditFridgeComponent } from './edit-fridge/edit-fridge.component';
 import { DeleteFridgeComponent } from './delete-fridge/delete-fridge.component';
-
-
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,9 @@ import { DeleteFridgeComponent } from './delete-fridge/delete-fridge.component';
     DeleteFridgeComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class FridgesModule { }

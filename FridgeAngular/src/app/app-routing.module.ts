@@ -7,11 +7,16 @@ import { ListFridgesComponent } from './fridges/list-fridges/list-fridges.compon
 import { ViewFridgeComponent } from './fridges/view-fridge/view-fridge.component';
 
 const routes: Routes = [
-  { path: 'create', component: AddFridgeComponent},
-  { path: 'view/:id', component: ViewFridgeComponent},
-  { path: 'list', component: ListFridgesComponent},
-  { path: 'delete/:id', component: DeleteFridgeComponent},
-  { path: 'edit/:id', component: EditFridgeComponent}
+  { path: 'fridges', 
+    children: [
+      { path: '', component: ListFridgesComponent},
+      { path: 'list', component: ListFridgesComponent},
+      { path: 'delete/:id', component: DeleteFridgeComponent},
+      { path: 'edit/:id', component: EditFridgeComponent},
+      { path: 'view/:id', component: ViewFridgeComponent},
+      { path: 'create', component: AddFridgeComponent}
+    ]
+  }
 ];
 
 @NgModule({
