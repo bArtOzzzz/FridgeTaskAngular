@@ -1,5 +1,7 @@
 <div class="container pt-2">
     <h1 *ngIf="countProducts">Displaying {{ countProducts.length }} products</h1>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add product</button>
     <table class="table table-hover">
         <thead>
             <th>Product Name</th>
@@ -17,7 +19,34 @@
             </tr>
         </tbody>
     </table>
-    <div>
-        <a class="btn btn-success add-button">Add Product</a>
+</div>
+
+
+<!-- Modal for add new product-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="createFridgeProductForm">
+                    <div class="container">
+                        <div class="form-group">
+                            <label class="col-form-label mt-4" for="productName">Product name:</label>
+                            <input type="text" class="form-control" placeholder="Enter name" formControlName="productName">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label mt-4" for="defaultQuantity">Quantity:</label>
+                            <input type="text" class="form-control" placeholder="Enter quantity" formControlName="defaultQuantity">
+                        </div>
+                        <div>
+                            <a class="btn btn-success add-button" (click)="createFridgeProduct()">Create fridge</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
