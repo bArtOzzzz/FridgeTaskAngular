@@ -1,7 +1,9 @@
 <div class="container pt-2">
-    <h1 *ngIf="countProducts">Displaying {{ countProducts.length }} products</h1>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add product</button>
+    
+    <div class="alert alert-success" role="alert" id="add-success-alert">Product successfully created!</div>
+    
     <table class="table table-hover">
         <thead>
             <th>Product Name</th>
@@ -14,7 +16,7 @@
                 <td>{{ product.defaultQuantity }}</td>
                 <td>
                     <a class="btn btn-primary button-container">Edit</a>
-                    <a class="btn btn-danger button-container">Delete</a>
+                    <a class="btn btn-danger button-container" (click)="deleteProduct(product.id)">Delete</a>
                 </td>
             </tr>
         </tbody>
@@ -28,7 +30,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Add product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalClose()" id="view-fridge-modal-close"></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="createFridgeProductForm">
@@ -42,7 +44,7 @@
                             <input type="text" class="form-control" placeholder="Enter quantity" formControlName="defaultQuantity">
                         </div>
                         <div>
-                            <a class="btn btn-success add-button" (click)="createFridgeProduct()">Create fridge</a>
+                            <a class="btn btn-success add-button" (click)="createFridgeProduct()">Create product</a>
                         </div>
                     </div>
                 </form>

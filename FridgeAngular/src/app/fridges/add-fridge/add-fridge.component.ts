@@ -9,43 +9,42 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./add-fridge.component.scss']
 })
 export class AddFridgeComponent implements OnInit {
+  fridgeForm:FormGroup = new FormGroup({});
 
-  modelList$!: Observable<any[]>;
-  model: any;
-
-  createFridgeForm:FormGroup = new FormGroup({});
+  listModel$!: Observable<any[]>;
+  listModel:any
 
   constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.model = this.fridgeService.listModels();
-    this.modelList$ = this.fridgeService.listModels();
+    this.listModel$ = this.fridgeService.listModels();
+    this.listModel = this.fridgeService.listModels();
 
-    this.createFridgeForm = this.formBuilder.group({
+    this.createFridgeForm();
+  }
+
+  // Create fridge form
+  createFridgeForm() {
+    this.fridgeForm = this.formBuilder.group({
       'manufacturer': new FormControl(''),
       'ownerName': new FormControl(''),
       'modelId': new FormControl('')
     })
+    console.log("Fridge form was created");
   }
 
-  // Create new fridge
-  createFridge(modelId: string) {
-    this.fridgeService.createFridge(modelId, this.createFridgeForm.value).subscribe(data => {
-      var closeModalBtn = document.getElementById('list-fridges-modal-close');
-      if(closeModalBtn) {
-        closeModalBtn.click();
-      }
-
-      // var showAddSuccess = document.getElementById('add-success-alert');
-      // if(showAddSuccess) {
-      //   showAddSuccess.style.display = "block";
-      // }
-      // setTimeout(function() {
-      //   if(showAddSuccess) {
-      //     showAddSuccess.style.display = "none"
-      //   }
-      // }, 4000);
+  // Create fridge
+  createFridge() {
+    this.fridgeService.createFridge(this.listModel.id, this.fridgeForm.value).subscribe(data => {
+      console.log("Fridge created")
+    }, err => {
+      console.log(err);
     })
-  }
+    console.log("Fridge was created");
 
+    var closeModalBtn = document.getElementById('add-fridge-modal-close');
+    if (closeModalBtn) {
+      closeModalBtn.click();
+    }
+  }
 }

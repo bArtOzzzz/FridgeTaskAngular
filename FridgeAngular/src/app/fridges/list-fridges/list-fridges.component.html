@@ -1,7 +1,9 @@
 <div class="container pt-2">
-    <h1 *ngIf="countFridges">Displaying {{ countFridges.length }} fridges</h1>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create new fridge</button>
+    <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="modalOpen()">Create new fridge</button>
+    
+    <div class="alert alert-success" role="alert" id="add-success-alert">Fridge successfully created!</div>
+    
     <table class="table table-hover">
         <thead>
             <th>Manufacturer</th>
@@ -19,7 +21,7 @@
                 <td>
                     <a class="btn btn-info button-container" [routerLink]="['/fridges/view', fridge.id]">View</a>
                     <a class="btn btn-primary button-container" [routerLink]="['/fridges/edit', fridge.id]">Edit</a>
-                    <a class="btn btn-danger button-container" [routerLink]="['/fridges/delete', fridge.id]">Delete</a>
+                    <a class="btn btn-danger button-container" (click)="deleteFridge(fridge.id)">Delete</a>
                 </td>
             </tr>
         </tbody>
@@ -32,31 +34,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Create new fridge</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="staticBackdropLabel">{{modalTitle}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalClose()" id="add-fridge-modal-close"></button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="createFridgeForm">
-                    <div class="container">
-                        <div class="form-group">
-                            <label class="col-form-label mt-4" for="manufacturer">Manufacturer:</label>
-                            <input type="text" class="form-control" placeholder="Enter manufacurer" formControlName="manufacturer">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label mt-4" for="ownerName">Name:</label>
-                            <input type="text" class="form-control" placeholder="Enter your name" formControlName="ownerName">
-                        </div>
-                        <div class="form-group">
-                            <label for="model" class="form-label mt-4">Choose model:</label>
-                            <select class="form-select" name="modelId" formControlName="modelId">
-                                <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
-                            </select>
-                        </div>
-                        <div *ngIf="activateModalComponent">
-                            <a class="btn btn-success add-button" (click)="createFridge()">Create fridge</a>
-                        </div>
-                    </div>
-                </form>
+               <app-add-fridge *ngIf="activateModalComponent"></app-add-fridge>
             </div>
         </div>
     </div>

@@ -19,6 +19,10 @@ export class FridgeService {
     return this.http.post(this.baseUrl + '/fridge/' + modelId, data);
   }
 
+  deleteFridge(fridgeId: string) {
+    return this.http.delete(this.baseUrl + '/fridge/' + fridgeId);
+  }
+
   // Model
   listModels():Observable<any[]> {
     return this.http.get<any>(this.baseUrl + '/model');
@@ -31,5 +35,14 @@ export class FridgeService {
 
   createProduct(fridgeId: string, data: any) {
     return this.http.post(this.baseUrl + '/fridgeProduct/' + fridgeId, data);
+  }
+
+  // Product
+  listProducts():Observable<any[]> {
+    return this.http.get<any>(this.baseUrl + '/product');
+  }
+
+  deleteProduct(productId: string) {
+    return this.http.delete(this.baseUrl + '/product/' + productId);
   }
 }
