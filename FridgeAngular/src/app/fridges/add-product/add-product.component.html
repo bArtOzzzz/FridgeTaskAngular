@@ -1,0 +1,15 @@
+<form>
+    <div class="container">
+        <div>
+            <label for="productName" class="col-form-label mt-4">Product name:</label>
+            <input type="text" class="form-control" name="productName" [(ngModel)]="productName" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+            <label for="defaultQuantity" class="col-form-label mt-4">Quantity:</label>
+            <input type="text" class="form-control" name="defaultQuantity" [(ngModel)]="defaultQuantity" placeholder="Enter quantity">
+        </div>
+        <div>
+            <a (click)="createProduct()" class="btn btn-success add-button">Create product</a>
+        </div>
+    </div>
+</form>

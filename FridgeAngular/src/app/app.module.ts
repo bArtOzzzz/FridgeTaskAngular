@@ -17,7 +17,7 @@ import { LayoutModule } from './layout/layout.module';
     AppRoutingModule,
     FridgesModule,
     HttpClientModule,
-    LayoutModule
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

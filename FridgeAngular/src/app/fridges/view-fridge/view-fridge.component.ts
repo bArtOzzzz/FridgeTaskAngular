@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
@@ -12,23 +11,53 @@ import { FridgeService } from 'src/app/services/fridge.service';
 export class ViewFridgeComponent implements OnInit {
 
   fridgeId: string = '';
-  fridgeDetails$!: Observable<any[]>;
+  listProducts$!: Observable<any[]>;
+  listProducts: any=[]
 
-  listProducts: any
-
-  createFridgeProductForm: FormGroup = new FormGroup({});
-
-  constructor(private fridgeService: FridgeService,
-              private activatedRoute: ActivatedRoute,
-              private formBulder: FormBuilder) { }
+  constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getFridgeId();
+    this.productsCount();
   
-    this.fridgeDetails$ = this.fridgeService.viewFridge(this.fridgeId);
-    this.listProducts = this.fridgeService.listProducts();
+    this.listProducts$ = this.fridgeService.viewFridge(this.fridgeId);
+  }
 
-    this.createProductForm();
+  // Get products
+  productsCount() {
+    this.fridgeService.viewFridge(this.fridgeId).subscribe(data => {
+      this.listProducts = data;
+    })
+  }
+
+  // Variables (properties)
+  modalTitle: string = '';
+  activateModalComponent: boolean = false;
+  product: any;
+
+  modalCreateOpen() {
+    this.product = {
+      id: null,
+      productName: null,
+      defaultQuantity: null,
+    }
+    this.modalTitle = "Create new product";
+    this.activateModalComponent = true;
+    console.log("Modal window open");
+  }
+
+  modalUpdateOpen(product: any) {
+    this.product = product;
+    this.modalTitle = "Update product";
+    this.activateModalComponent = true;
+    console.log("Modal window open");
+  }
+
+  modalClose() {
+    this.listProducts$ = this.fridgeService.viewFridge(this.fridgeId);
+    this.activateModalComponent = false;
+    this.productsCount();
+    console.log("Page updated and modal closed");
   }
 
   // Get fridge id from activatedRoute
@@ -38,57 +67,29 @@ export class ViewFridgeComponent implements OnInit {
       console.log("Get fridge id");
     })
   }
-
-  // Create new fridge product form
-  createProductForm(){
-    this.createFridgeProductForm = this.formBulder.group({
-      'productName': new FormControl(''),
-      'defaultQuantity': new FormControl('')
-    })
-    console.log("Product form was created");
-  }
-
-  // Create new product by fridge id
-  createFridgeProduct() {
-    this.fridgeService.createProduct(this.fridgeId, this.createFridgeProductForm.value).subscribe(data => {
-      console.log("Product created successfully!")
-    }, err => {
-      console.log(err);
-    })
-    console.log("Product was created");
-    
-    var closeModalBtn = document.getElementById('view-fridge-modal-close');
-    if (closeModalBtn) {
-      closeModalBtn.click();
-    }
-  }
-
+  
   // Delete the product
-  deleteProduct(productId: string) {
+  deleteProduct(product: any) {
     if(confirm(`Are your sure you want to delete this product?`)) {
-      this.fridgeService.deleteProduct(productId).subscribe(data => {
-        console.log("Product was delete successfully!")
-      }, err => {
-        console.log("Unable to Delete the product")
+      this.fridgeService.deleteProduct(product.id).subscribe(data => {
+        console.log("Product deleted successfully");
+        this.modalClose();
+
+        var showDeleteSuccess = document.getElementById('delete-success-alert');
+        if (showDeleteSuccess) {
+          showDeleteSuccess.style.display = "block";
+          console.log("Showing success alert");
+        }
+        setTimeout(function() {
+          if(showDeleteSuccess) {
+            showDeleteSuccess.style.display = "none";
+          }
+        }, 4000);
+        this.productsCount();
       })
     }
-  }
-
-  // Close the modal
-  modalClose() {
-    console.log("Modal was closed {Create new product}");
-
-    var showAddSuccess = document.getElementById('add-success-alert');
-    if(showAddSuccess) {
-      showAddSuccess.style.display = "block";
-      console.log("Start 'product create' alert");
+    else {
+      console.log("Product delete was cancelled");
     }
-    setTimeout(function() {
-      if(showAddSuccess) {
-        showAddSuccess.style.display = "none"
-        console.log("Stop show 'product create' alert");
-      }
-    }, 4000);
   }
 }
-

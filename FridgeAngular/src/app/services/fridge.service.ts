@@ -15,8 +15,12 @@ export class FridgeService {
     return this.http.get<any>(this.baseUrl + '/fridge');
   }
 
-  createFridge(modelId: string, data: any) {
-    return this.http.post(this.baseUrl + '/fridge/' + modelId, data);
+  createFridge(data: any) {
+    return this.http.post(this.baseUrl + '/fridge', data, {responseType: "text"});
+  }
+
+  updateFridge(fridgeId: number, data: any) {
+    return this.http.put(this.baseUrl + '/fridge/' + fridgeId, data, {responseType: "text"});
   }
 
   deleteFridge(fridgeId: string) {
@@ -34,7 +38,7 @@ export class FridgeService {
   }
 
   createProduct(fridgeId: string, data: any) {
-    return this.http.post(this.baseUrl + '/fridgeProduct/' + fridgeId, data);
+    return this.http.post(this.baseUrl + '/fridgeProduct/' + fridgeId, data, {responseType: "text"});
   }
 
   // Product
@@ -44,5 +48,9 @@ export class FridgeService {
 
   deleteProduct(productId: string) {
     return this.http.delete(this.baseUrl + '/product/' + productId);
+  }
+
+  updateProduct(productId: number, data: any) {
+    return this.http.put(this.baseUrl + '/product/' + productId, data, {responseType: "text"});
   }
 }

@@ -9,7 +9,7 @@ import { FridgeService } from 'src/app/services/fridge.service';
 })
 export class ListFridgesComponent implements OnInit {
   listFridges$!: Observable<any[]>;
-
+  listFridges: any=[]
   listModel:any=[]
 
   // Map to display data associate with foreign keys
@@ -20,15 +20,49 @@ export class ListFridgesComponent implements OnInit {
 
   ngOnInit(): void {
     this.listFridges$ = this.fridgeService.listFridges();
-    this.listModel = this.fridgeService.listModels();
 
+    this.fridgeCount();
     this.refreshFridgeModelNameMap();
     this.refreshFridgeModelProductionYearMap();
   }
 
+  // Get fridges
+  fridgeCount() {
+    this.fridgeService.listFridges().subscribe(data => {
+      this.listFridges = data;
+    })
+  }
+
   // Variables (properties)
-  modalTitle: string = "Create new fridge";
+  modalTitle: string = '';
   activateModalComponent: boolean = false;
+  fridge: any;
+
+  modalCreateOpen() {
+    this.fridge = {
+      id: null,
+      manufacturer: "Enter manufacturer",
+      ownerName: "Enter your name",
+      modelId: null
+    }
+    this.modalTitle = "Create new fridge";
+    this.activateModalComponent = true;
+    console.log("Modal window open");
+  }
+
+  modalUpdateOpen(fridge: any) {
+    this.fridge = fridge;
+    this.modalTitle = "Update fridge";
+    this.activateModalComponent = true;
+    console.log("Modal window open");
+  }
+
+  modalClose() {
+    this.listFridges$ = this.fridgeService.listFridges();
+    this.activateModalComponent = false;
+    this.fridgeCount();
+    console.log("Page updated and modal closed");
+  }
 
   // Get fridge model by id
   refreshFridgeModelNameMap() {
@@ -38,7 +72,7 @@ export class ListFridgesComponent implements OnInit {
       for(let i = 0; i < data.length; i++) {
         this.fridgeModelNameMap.set(this.listModel[i].id, this.listModel[i].modelName);
       }
-      console.log("Get model name");
+      console.log("Get model name by id");
     })
   }
 
@@ -50,40 +84,32 @@ export class ListFridgesComponent implements OnInit {
       for(let i = 0; i < data.length; i++) {
         this.fridgeModelProductionYearMap.set(this.listModel[i].id, this.listModel[i].productionYear);
       }
-      console.log("Get model production year");
+      console.log("Get model production year by id");
     })
   }
 
-  // Delete the fridge
+  //Delete the fridge
   deleteFridge(fridgeId: string) {
-    if(confirm(`Are your sure you want to delete this fridge?`)) {
+    if(confirm(`Are your sure you want to delete this fridge?`))  {
       this.fridgeService.deleteFridge(fridgeId).subscribe(data => {
-        console.log("Fridge was delete successfully!")
-      }, err => {
-        console.log("Unable to Delete the fridge")
+        console.log("Fridge deleted successfully");
+        this.modalClose();
+
+        var showDeleteSuccess = document.getElementById('delete-success-alert');
+        if (showDeleteSuccess) {
+          showDeleteSuccess.style.display = "block";
+          console.log("Showing success alert");
+        }
+        setTimeout(function() {
+          if(showDeleteSuccess) {
+            showDeleteSuccess.style.display = "none";
+          }
+        }, 4000);
+        this.fridgeCount();
       })
     }
-  }
-
-  // Open the modal
-  modalOpen() {
-    this.activateModalComponent = true;
-    console.log("Modal was opened");
-  }
-
-  // Close the modal
-  modalClose() {
-    this.activateModalComponent = false;
-    console.log("Modal was closed");
-
-    var showAddSuccess = document.getElementById('add-success-alert');
-    if(showAddSuccess) {
-      showAddSuccess.style.display = "block";
+    else {
+      console.log("Fridge delete was cancelled");
     }
-    setTimeout(function() {
-      if(showAddSuccess) {
-        showAddSuccess.style.display = "none"
-      }
-    }, 4000);
   }
 }

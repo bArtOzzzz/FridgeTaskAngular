@@ -1,1 +1,21 @@
-<p>edit-fridge works!</p>
+<form>
+    <div class="container">
+        <div>
+            <label for="manufacturer" class="col-form-label mt-4">Manufacturer:</label>
+            <input type="text" class="form-control" name="manufacturer" [(ngModel)]="manufacturer" placeholder="Enter manufacturer">
+        </div>
+        <div>
+            <label class="col-form-label mt-4" for="ownerName">Name:</label>
+            <input type="text" class="form-control" name="ownerName" [(ngModel)]="ownerName" placeholder="Enter your name">
+        </div>
+        <div>
+            <label for="model" class="form-label mt-4">Choose model:</label>
+            <select class="form-control" name="modelId" id="modelId" [(ngModel)]="modelId">
+                <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
+            </select>
+        </div>
+        <div>
+            <a (click)="updateFridge()" class="btn btn-success add-button">Update fridge</a>
+        </div>
+    </div>
+</form>

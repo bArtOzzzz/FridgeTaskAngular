@@ -1,21 +1,21 @@
-<form [formGroup]="fridgeForm">
+<form name="fridgeForm">
     <div class="container">
-        <div class="form-group">
-            <label class="col-form-label mt-4" for="manufacturer">Manufacturer:</label>
-            <input type="text" class="form-control" placeholder="Enter manufacurer" formControlName="manufacturer">
+        <div>
+            <label for="manufacturer" class="col-form-label mt-4">Manufacturer:</label>
+            <input required type="text" class="form-control" name="manufacturer" [(ngModel)]="manufacturer">
         </div>
-        <div class="form-group">
+        <div>
             <label class="col-form-label mt-4" for="ownerName">Name:</label>
-            <input type="text" class="form-control" placeholder="Enter your name" formControlName="ownerName">
+            <input required type="text" class="form-control" name="ownerName" [(ngModel)]="ownerName">
         </div>
-        <div class="form-group">
+        <div>
             <label for="model" class="form-label mt-4">Choose model:</label>
-            <select class="form-select" name="modelId" formControlName="modelId">
+            <select required class="form-control" name="modelId" id="modelId" [(ngModel)]="modelId">
                 <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
             </select>
         </div>
         <div>
-            <a class="btn btn-success add-button" (click)="createFridge()">Create fridge</a>
+            <a (click)="createFridge()" class="btn btn-success add-button">Create fridge</a>
         </div>
     </div>
 </form>
