@@ -11,6 +11,9 @@ export class ListFridgesComponent implements OnInit {
   listFridges$!: Observable<any[]>;
   listFridges: any=[]
   listModel:any=[]
+  modalTitle: string = '';
+  activateModalComponent: boolean = false;
+  fridge: any;
 
   // Map to display data associate with foreign keys
   fridgeModelNameMap:Map<number, string> = new Map();
@@ -30,19 +33,16 @@ export class ListFridgesComponent implements OnInit {
   fridgeCount() {
     this.fridgeService.listFridges().subscribe(data => {
       this.listFridges = data;
+      console.log("Recount fridges");
     })
   }
 
-  // Variables (properties)
-  modalTitle: string = '';
-  activateModalComponent: boolean = false;
-  fridge: any;
-
+  // onClick for create button
   modalCreateOpen() {
     this.fridge = {
       id: null,
-      manufacturer: "Enter manufacturer",
-      ownerName: "Enter your name",
+      manufacturer: "",
+      ownerName: "",
       modelId: null
     }
     this.modalTitle = "Create new fridge";
@@ -50,6 +50,7 @@ export class ListFridgesComponent implements OnInit {
     console.log("Modal window open");
   }
 
+  // onClick for update button
   modalUpdateOpen(fridge: any) {
     this.fridge = fridge;
     this.modalTitle = "Update fridge";
@@ -57,9 +58,12 @@ export class ListFridgesComponent implements OnInit {
     console.log("Modal window open");
   }
 
+  // onClick for close/cancel button
   modalClose() {
-    this.listFridges$ = this.fridgeService.listFridges();
     this.activateModalComponent = false;
+    this.listFridges$ = this.fridgeService.listFridges();
+    this.refreshFridgeModelNameMap();
+    this.refreshFridgeModelProductionYearMap();
     this.fridgeCount();
     console.log("Page updated and modal closed");
   }
@@ -109,7 +113,7 @@ export class ListFridgesComponent implements OnInit {
       })
     }
     else {
-      console.log("Fridge delete was cancelled");
+      console.log("Fridge delete cancelled");
     }
   }
 }

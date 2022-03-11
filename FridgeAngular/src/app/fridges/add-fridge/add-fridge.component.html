@@ -1,21 +1,89 @@
-<form name="fridgeForm">
-    <div class="container">
-        <div>
-            <label for="manufacturer" class="col-form-label mt-4">Manufacturer:</label>
-            <input required type="text" class="form-control" name="manufacturer" [(ngModel)]="manufacturer">
-        </div>
-        <div>
-            <label class="col-form-label mt-4" for="ownerName">Name:</label>
-            <input required type="text" class="form-control" name="ownerName" [(ngModel)]="ownerName">
-        </div>
-        <div>
-            <label for="model" class="form-label mt-4">Choose model:</label>
-            <select required class="form-control" name="modelId" id="modelId" [(ngModel)]="modelId">
-                <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
-            </select>
-        </div>
-        <div>
-            <a (click)="createFridge()" class="btn btn-success add-button">Create fridge</a>
+<form [formGroup]="fridgeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="manufacturer">Manufacturer:</label>
+        <input formControlName="manufacturer" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['manufacturer'].errors}" type="text" class="form-control" placeholder="Enter manufacturer">
+        <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors" class="text-danger">
+            <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors['required']">
+                Manufacturer is required*
+            </div>
+            <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors['minlength']">
+                Length must be 3-24 character*
+            </div>
+            <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors['maxlength']">
+                Length must be 3-24 character*
+            </div>
         </div>
     </div>
+    <div class="form-group">
+        <label for="ownerName">Name:</label>
+        <input formControlName="ownerName" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['ownerName'].errors}" type="text" class="form-control" placeholder="Enter your name">
+        <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors" class="text-danger">
+            <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['required']">
+                Name is required*
+            </div>
+            <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['minlength']">
+                Length must be 3-24 character*
+            </div>
+            <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['maxlength']">
+                Length must be 3-24 character*
+            </div>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="!isModelChecked">
+        <label for="modelId">Choose model:</label>
+        <select formControlName="modelId" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['modelId'].errors}" class="form-control">
+            <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
+        </select>
+        <div *ngIf="submitted && fridgeForm.controls['modelId'].errors" class="text-danger">
+            <div *ngIf="submitted && fridgeForm.controls['modelId'].errors['required']">
+                Model is required*
+            </div>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="isModelChecked">
+        <label for="modelId">Choose model:</label>
+        <select id="disable-select-field" formControlName="modelId" class="form-control">
+            <option *ngIf="tempRepository" [value]="tempRepository.id">{{tempRepository.modelName}}</option>
+        </select>
+    </div>
+    <div class="form-check">
+        <label>Create a new model</label>
+        <input (click)="activeModelForm()" class="form-check-input" type = 'checkbox' id = 'newModelCheck' onchange = 'showOrHide("newModelCheck", "newModel", "disable-select-field");'/>
+        <div class="additive-container" id="newModel" [formGroup]="modelForm" *ngIf="isModelChecked">
+            <div class="form-group">
+                <label for="modelName">Model:</label>
+                <input formControlName="modelName" [ngClass]="{'is-invalid':submitted && modelForm.controls['modelName'].errors}" class="form-control" type="text" placeholder="Enter model name">
+                <div *ngIf="submitted && modelForm.controls['modelName'].errors" class="text-danger">
+                    <div *ngIf="submitted && modelForm.controls['modelName'].errors['required']">
+                        Name is required*
+                    </div>
+                    <div *ngIf="submitted && modelForm.controls['modelName'].errors['minlength']">
+                        Length must be 3-24 character*
+                    </div>
+                    <div *ngIf="submitted && modelForm.controls['modelName'].errors['maxlength']">
+                        Length must be 3-24 character*
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="productionYear">Production year:</label>
+                <input formControlName="productionYear" [ngClass]="{'is-invalid':submitted && modelForm.controls['productionYear'].errors}" class="form-control" type="number" min="1900" max="2022" placeholder="Year">
+                <div *ngIf="submitted && modelForm.controls['productionYear'].errors" class="text-danger">
+                    <div *ngIf="submitted && modelForm.controls['productionYear'].errors['required']">
+                        Production year is required*
+                    </div>
+                    <div *ngIf="submitted && modelForm.controls['productionYear'].errors['min']">
+                        The year may be from 1900 to 2022*
+                    </div>
+                    <div *ngIf="submitted && modelForm.controls['productionYear'].errors['max']">
+                        The year may be from 1900 to 2022*
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success add-button float-end">Create fridge</button>
+    </div>
 </form>
+

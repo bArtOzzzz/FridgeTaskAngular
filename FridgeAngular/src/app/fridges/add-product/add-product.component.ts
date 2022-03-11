@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FridgeService } from 'src/app/services/fridge.service';
 
@@ -9,20 +10,37 @@ import { FridgeService } from 'src/app/services/fridge.service';
 })
 export class AddProductComponent implements OnInit {
   fridgeId: string = "";
+  productForm!: FormGroup
+  submitted = false;
 
-  constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute) { }
-
-  @Input() product:any;
-  productName: string = "";
-  defaultQuantity: number = 0;
+  constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getFridgeId();
-
-    this.productName = this.product.productName;
-    this.defaultQuantity = this.product.defaultQuantity;
+    this.createProductForm();
   }
 
+  // Create product form
+  createProductForm() {
+    this.productForm = this.formBuilder.group({
+      productName:['', Validators.required],
+      defaultQuantity:['', [Validators.required, Validators.maxLength(3)]],
+    })
+    console.log("Product form successfully created");
+  }
+
+  // Submitting the form
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.productForm.invalid) {  
+      return 
+    }
+    console.log(this.productForm.value);
+    this.createProduct();
+  }
+
+  // Getting fridge id onInit
   getFridgeId() {
     this.activatedRoute.params.subscribe(data => {
       this.fridgeId = data['id'];
@@ -32,11 +50,7 @@ export class AddProductComponent implements OnInit {
 
   // Create product
   createProduct() {
-    var product = {
-      productName: this.productName,
-      defaultQuantity: this.defaultQuantity
-    }
-    this.fridgeService.createProduct(this.fridgeId, product).subscribe(data => {
+    this.fridgeService.createProduct(this.fridgeId, this.productForm.value).subscribe(data => {
       var closeModalBtn = document.getElementById('create-product-modal-close');
       if (closeModalBtn) {
         closeModalBtn.click();

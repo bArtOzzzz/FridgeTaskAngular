@@ -11233,10 +11233,8 @@ th, td {
 }
 
 .add-button {
-  display: flex;
-  justify-content: center;
-  text-transform: uppercase;
-  margin-top: 2em;
+  width: 30%;
+  font-size: 15px;
 }
 
 .table {
@@ -11248,10 +11246,15 @@ th, td {
     height: 4em;
 }
 
-.ng-valid[required], .ng-valid.required {
-  border-left: 5px solid #42A948;
+.form-group,
+.form-check {
+  margin-top: 1em;
 }
 
-.ng-valid:not(form) {
-  border-left: 5px solid #a94442;
+input::placeholder {
+  font-size: 12px;
+}
+
+.additive-container {
+  display: none;
 }

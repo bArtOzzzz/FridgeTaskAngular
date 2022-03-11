@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
@@ -9,39 +9,55 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./edit-fridge.component.scss']
 })
 export class EditFridgeComponent implements OnInit {
+  fridgeForm!: FormGroup
   listModel$!: Observable<any[]>;
-
-  constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute) { }
-
-  @Input() fridge:any;
+  submitted = false;
   id!: number;
-  manufacturer:string = "";
-  ownerName:string = "";
-  modelId!:number;
+  @Input() fridge:any;
+
+  constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.id = this.fridge.id;
-    this.manufacturer = this.fridge.manufacturer;
-    this.ownerName = this.fridge.ownerName;
-    this.modelId = this.fridge.modelId;
+    this.createFridgeForm();
     this.listModel$ = this.fridgeService.listModels();
+  }
+
+  // Create a new fridge form
+  createFridgeForm() {
+    this.fridgeForm = this.formBuilder.group({
+      manufacturer:['', Validators.required],
+      ownerName:['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      modelId:['', [Validators.required]]
+    })
+    console.log("Fridge form successfully created");
+  }
+
+  // Submitting the form
+  onSubmit() {
+    this.submitted = true;
+    if (this.fridgeForm.invalid) {  
+      return 
+    }
+    console.log(this.fridgeForm.value);
+    console.log("Submitted");
+    this.updateFridge();
   }
 
   // Update fridge  
   updateFridge() {
     var fridge = {
       id: this.id,
-      manufacturer: this.manufacturer,
-      ownerName: this.ownerName,
-      modelId: this.modelId
+      manufacturer: this.fridgeForm.value.manufacturer,
+      ownerName: this.fridgeForm.value.ownerName,
+      modelId: this.fridgeForm.value.modelId
     }
 
-    var fridgeId: number = this.id;
-    this.fridgeService.updateFridge(fridgeId, fridge).subscribe(data => {
+    this.fridgeService.updateFridge(this.id, fridge).subscribe(data => {
       var closeModalBtn = document.getElementById('update-fridge-modal-close');
       if (closeModalBtn) {
         closeModalBtn.click();
-        console.log(`Fridge with id ${fridgeId} successfully updated`);
+        console.log(`Fridge with id ${this.id} successfully updated`);
       }
 
       var showUpdateSuccess = document.getElementById('update-success-alert');

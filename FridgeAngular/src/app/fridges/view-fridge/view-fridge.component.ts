@@ -89,7 +89,7 @@ export class ViewFridgeComponent implements OnInit {
       })
     }
     else {
-      console.log("Product delete was cancelled");
+      console.log("Product delete cancelled");
     }
   }
 }

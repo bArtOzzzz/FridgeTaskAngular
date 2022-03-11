@@ -1,21 +1,40 @@
-<form>
-    <div class="container">
-        <div>
-            <label for="manufacturer" class="col-form-label mt-4">Manufacturer:</label>
-            <input type="text" class="form-control" name="manufacturer" [(ngModel)]="manufacturer" placeholder="Enter manufacturer">
+<form [formGroup]="fridgeForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="manufacturer">Manufacturer:</label>
+        <input formControlName="manufacturer" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['manufacturer'].errors}" type="text" class="form-control">
+        <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors" class="text-danger">
+            <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors['required']">
+                Manufacturer is required *
+            </div>
         </div>
-        <div>
-            <label class="col-form-label mt-4" for="ownerName">Name:</label>
-            <input type="text" class="form-control" name="ownerName" [(ngModel)]="ownerName" placeholder="Enter your name">
+    </div>
+    <div class="form-group">
+        <label for="ownerName">Name:</label>
+        <input formControlName="ownerName" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['ownerName'].errors}" type="text" class="form-control">
+        <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors" class="text-danger">
+            <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['required']">
+                Name is required *
+            </div>
+            <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['minlength']">
+                Length must be 3-24 character
+            </div>
+            <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['maxlength']">
+                Length must be 3-24 character
+            </div>
         </div>
-        <div>
-            <label for="model" class="form-label mt-4">Choose model:</label>
-            <select class="form-control" name="modelId" id="modelId" [(ngModel)]="modelId">
-                <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
-            </select>
+    </div>
+    <div class="form-group">
+        <label for="modelId">Choose model:</label>
+        <select formControlName="modelId" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['modelId'].errors}" class="form-control">
+            <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
+        </select>
+        <div *ngIf="submitted && fridgeForm.controls['modelId'].errors" class="text-danger">
+            <div *ngIf="submitted && fridgeForm.controls['modelId'].errors['required']">
+                Model is required *
+            </div>
         </div>
-        <div>
-            <a (click)="updateFridge()" class="btn btn-success add-button">Update fridge</a>
-        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success add-button float-end">Save</button>
     </div>
 </form>

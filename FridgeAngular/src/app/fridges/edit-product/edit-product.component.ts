@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -7,34 +8,52 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./edit-product.component.scss']
 })
 export class EditProductComponent implements OnInit {
-
-  constructor(private fridgeService: FridgeService) { }
+  productUpdateForm!: FormGroup
+  submitted = false;
 
   @Input() product:any;
   id!: number;
-  productName: string = "";
-  defaultQuantity: number = 0;
+
+  constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.id = this.product.id;
-    this.productName = this.product.productName;
-    this.defaultQuantity = this.product.defaultQuantity;
+    this.createProductForm();
+  }
+
+  // Create new product form
+  createProductForm() {
+    this.productUpdateForm = this.formBuilder.group({
+      productName:['', Validators.required],
+      defaultQuantity:['', [Validators.required, Validators.maxLength(3)]],
+    })
+    console.log("Product form successfully created");
+  }
+
+  // Submitting the form
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.productUpdateForm.invalid) {  
+      return 
+    }
+    console.log(this.productUpdateForm.value);
+    this.updateProduct();
   }
 
   // Update fridge  
   updateProduct() {
     var product = {
       id: this.id,
-      productName: this.productName,
-      defaultQuantity: this.defaultQuantity,
+      productName: this.productUpdateForm.value.productName,
+      defaultQuantity: this.productUpdateForm.value.defaultQuantity,
     }
 
-    var productId: number = this.id;
-    this.fridgeService.updateProduct(productId, product).subscribe(data => {
+    this.fridgeService.updateProduct(this.id, product).subscribe(data => {
       var closeModalBtn = document.getElementById('update-product-modal-close');
       if (closeModalBtn) {
         closeModalBtn.click();
-        console.log(`Product with id ${productId} successfully updated`);
+        console.log(`Product with id ${this.id} successfully updated`);
       }
 
       var showUpdateSuccess = document.getElementById('update-success-alert');

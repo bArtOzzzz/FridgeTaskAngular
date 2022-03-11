@@ -1,15 +1,26 @@
-<form>
-    <div class="container">
-        <div>
-            <label for="productName" class="col-form-label mt-4">Product name:</label>
-            <input type="text" class="form-control" name="productName" [(ngModel)]="productName" placeholder="Enter name">
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="productName">Product name:</label>
+        <input formControlName="productName" [ngClass]="{'is-invalid':submitted && productForm.controls['productName'].errors}" type="text" class="form-control">
+        <div *ngIf="submitted && productForm.controls['productName'].errors" class="text-danger">
+            <div *ngIf="submitted && productForm.controls['productName'].errors['required']">
+                Product name is required*
+            </div>
         </div>
-        <div class="form-group">
-            <label for="defaultQuantity" class="col-form-label mt-4">Quantity:</label>
-            <input type="text" class="form-control" name="defaultQuantity" [(ngModel)]="defaultQuantity" placeholder="Enter quantity">
+    </div>
+    <div class="form-group">
+        <label for="defaultQuantity">Quantity:</label>
+        <input formControlName="defaultQuantity" [ngClass]="{'is-invalid':submitted && productForm.controls['defaultQuantity'].errors}" type="number" max="999" min="0" class="form-control">
+        <div *ngIf="submitted && productForm.controls['defaultQuantity'].errors" class="text-danger">
+            <div *ngIf="submitted && productForm.controls['defaultQuantity'].errors['required']">
+                Quantity is required*
+            </div>
+            <div *ngIf="submitted && productForm.controls['defaultQuantity'].errors['max'] || productForm.controls['defaultQuantity'].errors['min']">
+                Length must be limited 0-999 number*
+            </div>
         </div>
-        <div>
-            <a (click)="createProduct()" class="btn btn-success add-button">Create product</a>
-        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success add-button float-end">Create product</button>
     </div>
 </form>

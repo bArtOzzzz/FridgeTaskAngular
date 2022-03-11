@@ -32,6 +32,10 @@ export class FridgeService {
     return this.http.get<any>(this.baseUrl + '/model');
   }
 
+  createModel(data: any) {
+    return this.http.post(this.baseUrl + '/model', data, {responseType: "text"});
+  }
+
   // FridgeProduct
   viewFridge(id: string):Observable<any[]> {
     return this.http.get<any>(this.baseUrl + '/fridgeProduct/' + id + '/product');
