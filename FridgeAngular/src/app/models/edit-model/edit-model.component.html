@@ -1,0 +1,35 @@
+<!-- <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="modelName">Model:</label>
+        <input formControlName="modelName" [ngClass]="{'is-invalid':submitted && modelForm.controls['modelName'].errors}" class="form-control" type="text" placeholder="Enter model name">
+        <div *ngIf="submitted && modelForm.controls['modelName'].errors" class="text-danger">
+            <div *ngIf="submitted && modelForm.controls['modelName'].errors['required']">
+                Name is required*
+            </div>
+            <div *ngIf="submitted && modelForm.controls['modelName'].errors['minlength']">
+                Length must be 3-24 character*
+            </div>
+            <div *ngIf="submitted && modelForm.controls['modelName'].errors['maxlength']">
+                Length must be 3-24 character*
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productionYear">Production year:</label>
+        <input formControlName="productionYear" [ngClass]="{'is-invalid':submitted && modelForm.controls['productionYear'].errors}" class="form-control" type="number" min="1900" max="2022" placeholder="Year">
+        <div *ngIf="submitted && modelForm.controls['productionYear'].errors" class="text-danger">
+            <div *ngIf="submitted && modelForm.controls['productionYear'].errors['required']">
+                Production year is required*
+            </div>
+            <div *ngIf="submitted && modelForm.controls['productionYear'].errors['min']">
+                The year may be from 1900 to 2022*
+            </div>
+            <div *ngIf="submitted && modelForm.controls['productionYear'].errors['max']">
+                The year may be from 1900 to 2022*
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success add-button float-end">Create model</button>
+    </div>
+</form> -->

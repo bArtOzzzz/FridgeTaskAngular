@@ -22,8 +22,7 @@ import { AddProductComponent } from './add-product/add-product.component';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule,
-    ReactiveFormsModule
+    FormsModule
   ]
 })
 export class FridgesModule { }

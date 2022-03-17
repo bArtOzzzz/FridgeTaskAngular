@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
@@ -9,21 +9,78 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./add-fridge.component.scss']
 })
 export class AddFridgeComponent implements OnInit {
-  fridgeForm!: FormGroup
-  modelForm!: FormGroup
+  fridgeForm!: FormGroup;
+  modelForm!: FormGroup;
+  productForm!: FormGroup;
+
   submitted = false;
   isModelChecked = false;
+  isProductChecked = false;
 
   listModel$!: Observable<any[]>;
-  newModel:any=[]
-  tempRepository: any;
-  modelId: string = '';
+  producFields: Array<any> = []
+  listFridgeId: any=[]
 
-  constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { }
+  fridgeId: string = '';
+
+  productData = {
+    products: [
+      {
+        productName: '',
+        defaultQuantity: ''
+      }
+    ]
+  };
+
+  constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { 
+    this.productForm = this.formBuilder.group({
+      products: this.formBuilder.array([])
+    });
+
+    this.setProducts();
+  }
+
+  get productsFormArr(): FormArray {
+    return this.productForm.get('products') as FormArray;
+  }
+
+  addNewProduct() {
+    this.productsFormArr.push(
+      this.formBuilder.group({
+        productName: [''],
+        defaultQuantity: ['']
+      })
+    );
+  }
+
+  deleteProduct(index: any) {
+    this.productsFormArr.removeAt(index);
+  }
+
+  setProducts() {
+    this.productData.products.forEach(x => {
+      this.productsFormArr.push(
+        this.formBuilder.group({
+          productName: x.productName,
+          defaultQuantity: x.defaultQuantity
+        })
+      );
+    });
+  }
 
   ngOnInit(): void {
+    this.getFridgesId();
     this.createFridgeForm();
     this.listModel$ = this.fridgeService.listModels();
+  }
+
+  //Get all fridges id
+  getFridgesId() {
+    this.fridgeService.listFridges().subscribe(data => {
+      for(let i = 0; i < data.length; i++) {
+        this.listFridgeId[i] = data[i].id;
+      }
+    })
   }
 
   // Create fridge form
@@ -36,18 +93,6 @@ export class AddFridgeComponent implements OnInit {
     console.log("Fridge form successfully created");
   }
 
-  activeModelForm() {
-    if(this.isModelChecked) {
-      this.isModelChecked = false;
-    }
-    else {
-      this.isModelChecked = true;
-    }
-    this.createModelForm();
-    console.log("Model form activated");
-    console.log(this.isModelChecked);
-  }
-
   // Create model form
   createModelForm() {
     this.modelForm = this.formBuilder.group({
@@ -57,74 +102,111 @@ export class AddFridgeComponent implements OnInit {
     console.log("Model form successfully created");
   }
 
-  // Submitting the form
-  onSubmit() {
-    this.submitted = true;
 
-    if (this.fridgeForm.invalid) {  
-      console.log("Invalid");
-      return 
-    }
-    this.createFridge();
-  }
-
-  // Create fridge  
-  createFridge() {
+  // Check for active model form
+  activeModelForm() {
     if(this.isModelChecked) {
-      this.fridgeService.createModel(this.modelForm.value).subscribe(data => {
-        this.fridgeService.listModels().subscribe(data => {
-          this.newModel = data;
-          console.log(this.modelForm.value)
-          console.log(this.newModel);
-    
-          for(let i = 0; i < data.length; i++) {
-            if(this.modelForm.value.modelName == this.newModel[i].modelName) {
-              this.tempRepository = this.newModel[i];
-              console.log(this.tempRepository);
-              this.fridgeForm.value.modelId = this.tempRepository.id;
-              console.log(this.fridgeForm.value);
-              this.fridgeService.createFridge(this.fridgeForm.value).subscribe(data => {
-                var closeModalBtn = document.getElementById('create-fridge-modal-close');
-                if (closeModalBtn) {
-                  closeModalBtn.click();
-                  console.log("Fridge successfully created");
-                }
-
-                var showCreateSuccess = document.getElementById('create-success-alert');
-                if (showCreateSuccess) {
-                  showCreateSuccess.style.display = "block";
-                  console.log("Showing success alert");
-                }
-                setTimeout(function() {
-                  if(showCreateSuccess) {
-                    showCreateSuccess.style.display = "none";
-                  }
-                }, 4000);
-              })
-            }
-          }
-        })
-      })
+      this.isModelChecked = false;
     }
     else {
-        this.fridgeService.createFridge(this.fridgeForm.value).subscribe(data => {
-        var closeModalBtn = document.getElementById('create-fridge-modal-close');
-        if (closeModalBtn) {
-          closeModalBtn.click();
-          console.log("Fridge successfully created");
-        }
-
-        var showCreateSuccess = document.getElementById('create-success-alert');
-        if (showCreateSuccess) {
-          showCreateSuccess.style.display = "block";
-          console.log("Showing success alert");
-        }
-        setTimeout(function() {
-          if(showCreateSuccess) {
-            showCreateSuccess.style.display = "none";
-          }
-        }, 4000);
-      })
+      this.isModelChecked = true;
     }
+    this.createModelForm();
+    console.log(`Model active state: ${this.isModelChecked}`);
+  }
+
+  activeProductFrom() {
+    if(this.isProductChecked) {
+      this.isProductChecked = false;
+    }
+    else {
+      this.isProductChecked = true;
+    }
+    console.log(`Product active state: ${this.isProductChecked}`);
+  }
+
+  createFridge() {
+    if(this.isModelChecked){
+      this.createModel();
+    }
+    this.fridgeService.createFridge(this.fridgeForm.value).subscribe(ref => {
+      var closeModalBtn = document.getElementById('create-fridge-modal-close');
+      var showCreateSuccess = document.getElementById('create-success-alert');
+      if (closeModalBtn) {
+        closeModalBtn.click();
+        console.log("Fridge successfully created");
+      }
+      if (showCreateSuccess) {
+        showCreateSuccess.style.display = "block";
+        console.log("Showing success alert");
+      }
+      setTimeout(function() {
+        if(showCreateSuccess) {
+          showCreateSuccess.style.display = "none";
+        }
+      }, 4000);
+      if(this.isProductChecked) {
+        this.createProduct();
+      }
+    })
+  }
+
+  createModel() {
+    this.fridgeService.createModel(this.modelForm.value).subscribe(ref => {
+      console.log("New model for fridge was created");
+      this.fridgeService.listModels().subscribe(data => {
+        for(let i = 0; i < data.length; i++) {
+          if(this.modelForm.value.modelName == data[i].modelName) {
+            this.fridgeForm.value.modelId = data[i].id;
+            console.log("New model added to FridgeForm successfully");
+          }
+        }
+      })
+    })
+  }
+
+  createProduct() {
+    this.fridgeService.listFridges().subscribe(data => {
+      for(let i = 0; i < data.length; i++) {
+        if(data[i].id != this.listFridgeId[i]) {
+          this.fridgeId = data[i].id;
+          console.log("Fridge was define by id");
+        }
+      }
+      for(let k = 0; k < this.productForm.value.products.length; k++) {
+        this.fridgeService.createProduct(this.fridgeId, this.productForm.value.products[k]).subscribe(ref => {
+          console.log("Product was added");
+        })
+      }
+      console.log("All products was added successfully");
+    })
+  }
+
+  // Submitting the form
+  // TODO: FIX
+  onSubmit() {
+    this.submitted = true;
+    this.createFridge();
+
+    // if(this.fridgeForm.valid && !this.isModelChecked && !this.isProductChecked) {
+    //   console.log("Valid");
+    // }
+    // else {
+    //   console.log("Fridge Form is invalid");
+    // }
+
+    // if(this.modelForm && this.modelForm.valid && this.isModelChecked && !this.isProductChecked) {
+    //   console.log("Valid");
+    // }
+    // else {
+    //   console.log("Fridge Form is invalid");
+    // }
+
+    // if(this.fridgeForm.valid && this.productForm && this.productForm.valid && !this.isModelChecked && this.isProductChecked) {
+    //   console.log("Valid");
+    // }
+    // else {
+    //   console.log("Fridge Form is invalid");
+    // }
   }
 }

@@ -1,4 +1,5 @@
 <form [formGroup]="fridgeForm" (ngSubmit)="onSubmit()">
+    <!-- Main fridge create part -->
     <div class="form-group">
         <label for="manufacturer">Manufacturer:</label>
         <input formControlName="manufacturer" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['manufacturer'].errors}" type="text" class="form-control" placeholder="Enter manufacturer">
@@ -42,13 +43,14 @@
     </div>
     <div class="form-group" *ngIf="isModelChecked">
         <label for="modelId">Choose model:</label>
-        <select id="disable-select-field" formControlName="modelId" class="form-control">
-            <option *ngIf="tempRepository" [value]="tempRepository.id">{{tempRepository.modelName}}</option>
+        <select formControlName="modelId" id="disable-select-field" class="form-control">
+            <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
         </select>
     </div>
+    <!-- Create new model part -->
     <div class="form-check">
         <label>Create a new model</label>
-        <input (click)="activeModelForm()" class="form-check-input" type = 'checkbox' id = 'newModelCheck' onchange = 'showOrHide("newModelCheck", "newModel", "disable-select-field");'/>
+        <input (click)="activeModelForm()" class="form-check-input" type='checkbox' id='newModelCheck' onchange='showOrHide("newModelCheck", "newModel", "disable-select-field");'/>
         <div class="additive-container" id="newModel" [formGroup]="modelForm" *ngIf="isModelChecked">
             <div class="form-group">
                 <label for="modelName">Model:</label>
@@ -82,6 +84,52 @@
             </div>
         </div>
     </div>
+    <!-- Create new products part -->
+    <div class="form-check">
+        <label>Add products</label>
+        <input (click)="activeProductFrom()" class="form-check-input" type='checkbox' id="newProductCheck" onchange='showOrHide("newProductCheck", "product-form-main");'>
+        <form [formGroup]="productForm" id="product-form-main" *ngIf="isProductChecked">
+            <div formArrayName="products">
+                <div *ngFor="let product of productsFormArr.controls; let i=index">
+                <div [formGroupName]="i">
+                    <div class="field-container">
+                        <div class="row text-container">
+                            <div class="col">Product name</div>
+                            <div class="col">Quantity</div>
+                        </div>
+                        <div class="row">
+                            <div class="point-number">{{i + 1}})</div>
+                            <div class="col">
+                                <input formControlName="productName" class="productName" type="text" placeholder="Enter name">
+                                <!-- <div *ngIf="submitted && productForm.controls['productName'].errors" class="text-danger">
+                                    <div *ngIf="submitted && productForm.controls['productName'].errors['required']">
+                                        Name is required*
+                                    </div>
+                                    <div *ngIf="submitted && productForm.controls['productName'].errors['minlength']">
+                                        Length must be 2-24 character*
+                                    </div>
+                                    <div *ngIf="submitted && productForm.controls['productName'].errors['maxlength']">
+                                        Length must be 2-24 character*
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="col"><input formControlName="defaultQuantity" class="defaultQuantity" type="number" placeholder="Enter quantity"></div>
+                            <div class="col">
+                                <a class="btn btn-danger" (click)="deleteProduct(i)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6.5 1a.5.5 0 0 0-.5.5v1h4v-1a.5.5 0 0 0-.5-.5h-3ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1H3.042l.846 10.58a1 1 0 0 0 .997.92h6.23a1 1 0 0 0 .997-.92l.846-10.58Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="d-flex button-product-container">
+                    <button class="btn btn-warning" (click)="addNewProduct()">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- <pre>{{productForm.value | json}}</pre> -->
     <div class="form-group">
         <button class="btn btn-success add-button float-end">Create fridge</button>
     </div>

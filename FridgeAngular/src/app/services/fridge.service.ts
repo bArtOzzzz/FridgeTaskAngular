@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +34,14 @@ export class FridgeService {
 
   createModel(data: any) {
     return this.http.post(this.baseUrl + '/model', data, {responseType: "text"});
+  }
+
+  updateModel(modelId: string, data: any) {
+    return this.http.put(this.baseUrl + '/model/' + modelId, data, {responseType: "text"});
+  }
+
+  deleteModel(modelId: string) {
+    return this.http.delete(this.baseUrl + '/model/' + modelId);
   }
 
   // FridgeProduct

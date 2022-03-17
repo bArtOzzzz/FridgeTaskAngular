@@ -11247,7 +11247,8 @@ th, td {
 }
 
 .form-group,
-.form-check {
+.form-check,
+.warning-button {
   margin-top: 1em;
 }
 
@@ -11257,4 +11258,45 @@ input::placeholder {
 
 .additive-container {
   display: none;
+}
+
+.flex-field {
+  padding-right: 10px;
+}
+
+.button-product-container {
+  padding-top: 2em;
+}
+
+.remove-product-field-button{
+  padding-left: 1em;
+}
+
+.productName {
+  height: 38px;
+}
+
+.defaultQuantity {
+  height: 38px;
+  width: 8em;
+}
+
+.field-container {
+  padding-top: 1em;
+}
+
+.text-container {
+  padding-left: 6%;
+}
+
+.point-number {
+  width: 1em;
+}
+
+.btn-delete-all {
+  margin-left: 1em;
+}
+
+h2 {
+  text-transform: uppercase;
 }

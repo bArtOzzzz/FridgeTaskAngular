@@ -18,7 +18,9 @@
     disableElement = document.getElementById(disableElement);
     if (checkBox.checked){
       showElement.style.display = "block";
-      disableElement.setAttribute('disabled', 'disabled');
+      if(disableElement != null) {
+        disableElement.setAttribute('disabled', 'disabled');
+      }
     } 
     else {
       if(showElement != null) {

@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FridgesModule } from './fridges/fridges.module';
 import { LayoutModule } from './layout/layout.module';
+import { ModelsModule } from './models/models.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { LayoutModule } from './layout/layout.module';
     FridgesModule,
     HttpClientModule,
     LayoutModule,
+    ModelsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
