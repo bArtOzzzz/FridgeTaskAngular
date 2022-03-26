@@ -36,7 +36,7 @@ export class FridgeService {
     return this.http.post(this.baseUrl + '/model', data, {responseType: "text"});
   }
 
-  updateModel(modelId: string, data: any) {
+  updateModel(modelId: number, data: any) {
     return this.http.put(this.baseUrl + '/model/' + modelId, data, {responseType: "text"});
   }
 

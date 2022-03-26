@@ -9,6 +9,7 @@ import { FridgeService } from 'src/app/services/fridge.service';
 })
 export class ListFridgesComponent implements OnInit {
   listFridges$!: Observable<any[]>;
+  listProducts$!: Observable<any[]>;
   listFridges: any=[]
   listModel:any=[]
   modalTitle: string = '';
@@ -23,6 +24,7 @@ export class ListFridgesComponent implements OnInit {
 
   ngOnInit(): void {
     this.listFridges$ = this.fridgeService.listFridges();
+    this.listProducts$ = this.fridgeService.listProducts();
 
     this.fridgeCount();
     this.refreshFridgeModelNameMap();

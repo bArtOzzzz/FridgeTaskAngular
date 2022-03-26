@@ -8,11 +8,12 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./edit-product.component.scss']
 })
 export class EditProductComponent implements OnInit {
-  productUpdateForm!: FormGroup
-  submitted = false;
+  productForm!: FormGroup;
 
-  @Input() product:any;
   id!: number;
+  @Input() product:any;
+
+  submitted = false;
 
   constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { }
 
@@ -21,43 +22,27 @@ export class EditProductComponent implements OnInit {
     this.createProductForm();
   }
 
-  // Create new product form
+  // Create product form
   createProductForm() {
-    this.productUpdateForm = this.formBuilder.group({
-      productName:[this.product.productName, Validators.required],
-      defaultQuantity:[this.product.defaultQuantity, [Validators.required, Validators.maxLength(3)]],
-      productImage: [this.product.productImage]
+    this.productForm = this.formBuilder.group({
+      productName:['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      defaultQuantity:['', Validators.required]
     })
-    console.log("Product form successfully created");
+    console.log("Model form successfully created");
   }
 
-  // Submitting the form
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.productUpdateForm.invalid) {  
-      return 
-    }
-    console.log(this.productUpdateForm.value);
-    this.updateProduct();
-  }
-
-  // Update fridge  
   updateProduct() {
     var product = {
       id: this.id,
-      productName: this.productUpdateForm.value.productName,
-      defaultQuantity: this.productUpdateForm.value.defaultQuantity,
-      productImage: this.productUpdateForm.value.productImage
+      productName: this.productForm.value.productName,
+      defaultQuantity: this.productForm.value.defaultQuantity
     }
-
-    this.fridgeService.updateProduct(this.id, product).subscribe(data => {
+    this.fridgeService.updateProduct(this.id, product).subscribe(ref => {
       var closeModalBtn = document.getElementById('update-product-modal-close');
       if (closeModalBtn) {
         closeModalBtn.click();
         console.log(`Product with id ${this.id} successfully updated`);
       }
-
       var showUpdateSuccess = document.getElementById('update-success-alert');
       if (showUpdateSuccess) {
         showUpdateSuccess.style.display = "block";
@@ -69,5 +54,12 @@ export class EditProductComponent implements OnInit {
         }
       }, 4000);
     })
-  } 
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if(this.productForm.valid && this.submitted) {
+      this.updateProduct();
+    }
+  }
 }

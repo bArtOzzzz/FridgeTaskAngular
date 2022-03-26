@@ -9,10 +9,13 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./view-fridge.component.scss']
 })
 export class ViewFridgeComponent implements OnInit {
-
   fridgeId: string = '';
+
   listProducts$!: Observable<any[]>;
   listProducts: any=[]
+  product: any;
+
+  activateModalComponent: boolean = false;
 
   constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute) { }
 
@@ -30,25 +33,18 @@ export class ViewFridgeComponent implements OnInit {
     })
   }
 
-  // Variables (properties)
-  modalTitle: string = '';
-  activateModalComponent: boolean = false;
-  product: any;
-
   modalCreateOpen() {
     this.product = {
       id: null,
       productName: null,
       defaultQuantity: null,
     }
-    this.modalTitle = "Create new product";
     this.activateModalComponent = true;
     console.log("Modal window open");
   }
 
   modalUpdateOpen(product: any) {
     this.product = product;
-    this.modalTitle = "Update product";
     this.activateModalComponent = true;
     console.log("Modal window open");
   }

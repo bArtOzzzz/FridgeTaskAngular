@@ -11264,34 +11264,20 @@ input::placeholder {
   padding-right: 10px;
 }
 
-.button-product-container {
-  padding-top: 2em;
-}
-
 .remove-product-field-button{
   padding-left: 1em;
 }
 
-.productName {
-  height: 38px;
-}
 
-.defaultQuantity {
-  height: 38px;
-  width: 8em;
-}
 
 .field-container {
-  padding-top: 1em;
+  padding-top: 10px;
 }
 
 .text-container {
   padding-left: 6%;
 }
 
-.point-number {
-  width: 1em;
-}
 
 .btn-delete-all {
   margin-left: 1em;
@@ -11299,4 +11285,69 @@ input::placeholder {
 
 h2 {
   text-transform: uppercase;
+}
+
+.input-url {
+  font-size: 12px;
+  
+}
+
+
+
+.url-container {
+  margin-top: 10px;
+}
+
+.productItem {
+  width: 100%;
+}
+
+.point-number {
+  padding-top: 10px;
+  padding-left: 15px;
+}
+
+.new-product-container {
+  margin-top: 1em;
+  background-color: #eaeaea;
+}
+
+.label-field {
+  padding-left: 15px;
+}
+
+.input-field-container {
+  padding-bottom: 15px;
+}
+
+.button-product-container {
+  margin-top: 10px;
+}
+
+.delete-button {
+  padding-left: 85%;
+  color: red;
+  cursor: pointer;
+}
+
+.delete-container {
+  margin-top: 10px;
+}
+
+.modal-title { 
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.btn-close {
+  background-color: #fff;
+  border-radius: 50px;
+}
+
+.btn-close:hover {
+  background-color: rgb(255, 81, 0);
+}
+
+.modal-header {
+  background-color: rgb(105, 0, 167);
 }

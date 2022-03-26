@@ -8,10 +8,13 @@ import { AppComponent } from './app.component';
 import { FridgesModule } from './fridges/fridges.module';
 import { LayoutModule } from './layout/layout.module';
 import { ModelsModule } from './models/models.module';
+import { HomeModule } from './home/home.module';
+import { ProductsModule } from './products/products.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -19,7 +22,10 @@ import { ModelsModule } from './models/models.module';
     FridgesModule,
     HttpClientModule,
     LayoutModule,
-    ModelsModule
+    ModelsModule,
+    HomeModule,
+    ProductsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

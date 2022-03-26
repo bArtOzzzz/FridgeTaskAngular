@@ -26,9 +26,9 @@ export class EditFridgeComponent implements OnInit {
   // Create a new fridge form
   createFridgeForm() {
     this.fridgeForm = this.formBuilder.group({
-      manufacturer:['', Validators.required],
-      ownerName:['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
-      modelId:['', [Validators.required]]
+      manufacturer:[this.fridge.manufacturer, Validators.required],
+      ownerName:[this.fridge.ownerName, [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      modelId:[this.fridge.modelId, [Validators.required]]
     })
     console.log("Fridge form successfully created");
   }

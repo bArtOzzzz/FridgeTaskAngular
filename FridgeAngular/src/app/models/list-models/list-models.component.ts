@@ -12,8 +12,11 @@ export class ListModelsComponent implements OnInit {
   listModels: any=[];
   listFridges: any=[];
   listModelsToDelete: any=[];
+  model: any;
 
   listModelsId: any=[];
+
+  activateModalComponent: boolean = false;
 
   constructor(private fridgeService: FridgeService) { }
 
@@ -45,9 +48,17 @@ export class ListModelsComponent implements OnInit {
 
   // onClick for close/cancel button
   modalClose() {
+    this.activateModalComponent = false;
     this.listModels$ = this.fridgeService.listModels();
     this.modelCount();
     console.log("Page updated and modal closed");
+  }
+
+  // onClick for update button
+  modalUpdateOpen(model: any) {
+    this.model = model;
+    this.activateModalComponent = true;
+    console.log("Modal window open");
   }
 
   // Delete model

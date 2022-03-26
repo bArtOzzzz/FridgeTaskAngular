@@ -27,7 +27,8 @@ export class AddFridgeComponent implements OnInit {
     products: [
       {
         productName: '',
-        defaultQuantity: ''
+        defaultQuantity: '',
+        productImage: ''
       }
     ]
   };
@@ -47,8 +48,9 @@ export class AddFridgeComponent implements OnInit {
   addNewProduct() {
     this.productsFormArr.push(
       this.formBuilder.group({
-        productName: [''],
-        defaultQuantity: ['']
+        productName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(24)]],
+        defaultQuantity: ['', Validators.required],
+        productImage: ['']
       })
     );
   }
@@ -62,7 +64,8 @@ export class AddFridgeComponent implements OnInit {
       this.productsFormArr.push(
         this.formBuilder.group({
           productName: x.productName,
-          defaultQuantity: x.defaultQuantity
+          defaultQuantity: x.defaultQuantity,
+          productImage: x.productImage
         })
       );
     });
@@ -77,8 +80,10 @@ export class AddFridgeComponent implements OnInit {
   //Get all fridges id
   getFridgesId() {
     this.fridgeService.listFridges().subscribe(data => {
-      for(let i = 0; i < data.length; i++) {
-        this.listFridgeId[i] = data[i].id;
+      if(data != null) {
+        for(let i = 0; i < data.length; i++) {
+          this.listFridgeId[i] = data[i].id;
+        }
       }
     })
   }
@@ -110,8 +115,8 @@ export class AddFridgeComponent implements OnInit {
     }
     else {
       this.isModelChecked = true;
+      this.createModelForm();
     }
-    this.createModelForm();
     console.log(`Model active state: ${this.isModelChecked}`);
   }
 
@@ -126,9 +131,6 @@ export class AddFridgeComponent implements OnInit {
   }
 
   createFridge() {
-    if(this.isModelChecked){
-      this.createModel();
-    }
     this.fridgeService.createFridge(this.fridgeForm.value).subscribe(ref => {
       var closeModalBtn = document.getElementById('create-fridge-modal-close');
       var showCreateSuccess = document.getElementById('create-success-alert');
@@ -151,7 +153,7 @@ export class AddFridgeComponent implements OnInit {
     })
   }
 
-  createModel() {
+  createFridgeWithModel() {
     this.fridgeService.createModel(this.modelForm.value).subscribe(ref => {
       console.log("New model for fridge was created");
       this.fridgeService.listModels().subscribe(data => {
@@ -159,8 +161,10 @@ export class AddFridgeComponent implements OnInit {
           if(this.modelForm.value.modelName == data[i].modelName) {
             this.fridgeForm.value.modelId = data[i].id;
             console.log("New model added to FridgeForm successfully");
+            console.log(this.fridgeForm.value);
           }
         }
+        this.createFridge();
       })
     })
   }
@@ -183,30 +187,16 @@ export class AddFridgeComponent implements OnInit {
   }
 
   // Submitting the form
-  // TODO: FIX
   onSubmit() {
     this.submitted = true;
-    this.createFridge();
 
-    // if(this.fridgeForm.valid && !this.isModelChecked && !this.isProductChecked) {
-    //   console.log("Valid");
-    // }
-    // else {
-    //   console.log("Fridge Form is invalid");
-    // }
-
-    // if(this.modelForm && this.modelForm.valid && this.isModelChecked && !this.isProductChecked) {
-    //   console.log("Valid");
-    // }
-    // else {
-    //   console.log("Fridge Form is invalid");
-    // }
-
-    // if(this.fridgeForm.valid && this.productForm && this.productForm.valid && !this.isModelChecked && this.isProductChecked) {
-    //   console.log("Valid");
-    // }
-    // else {
-    //   console.log("Fridge Form is invalid");
-    // }
+    if(this.fridgeForm.valid && !this.isModelChecked) {
+      console.log("Fridge Form Valid");
+      this.createFridge();
+    }
+    else if (this.modelForm && this.modelForm.valid && this.isModelChecked) {
+      console.log("Fridge Form Invalid or active isModelChecked");
+      this.createFridgeWithModel();
+    }
   }
 }

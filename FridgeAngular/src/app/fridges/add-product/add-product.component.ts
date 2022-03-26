@@ -25,6 +25,7 @@ export class AddProductComponent implements OnInit {
     this.productForm = this.formBuilder.group({
       productName:['', Validators.required],
       defaultQuantity:['', [Validators.required, Validators.maxLength(3)]],
+      productImage: ['']
     })
     console.log("Product form successfully created");
   }
@@ -32,7 +33,6 @@ export class AddProductComponent implements OnInit {
   // Submitting the form
   onSubmit() {
     this.submitted = true;
-
     if (this.productForm.invalid) {  
       return 
     }
@@ -56,7 +56,6 @@ export class AddProductComponent implements OnInit {
         closeModalBtn.click();
         console.log("Product successfully created");
       }
-
       var showCreateSuccess = document.getElementById('create-success-alert');
       if (showCreateSuccess) {
         showCreateSuccess.style.display = "block";
