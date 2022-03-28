@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -41,15 +41,15 @@ export class AddFridgeComponent implements OnInit {
     this.setProducts();
   }
 
-  get productsFormArr(): FormArray {
-    return this.productForm.get('products') as FormArray;
+  get productsFormArr(): any {
+    return this.productForm.get('products') as any;
   }
 
   addNewProduct() {
     this.productsFormArr.push(
       this.formBuilder.group({
-        productName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(24)]],
-        defaultQuantity: ['', Validators.required],
+        productName: [''],
+        defaultQuantity: [''],
         productImage: ['']
       })
     );
@@ -106,7 +106,6 @@ export class AddFridgeComponent implements OnInit {
     })
     console.log("Model form successfully created");
   }
-
 
   // Check for active model form
   activeModelForm() {
@@ -174,7 +173,7 @@ export class AddFridgeComponent implements OnInit {
       for(let i = 0; i < data.length; i++) {
         if(data[i].id != this.listFridgeId[i]) {
           this.fridgeId = data[i].id;
-          console.log("Fridge was define by id");
+          console.log(`Fridge was define by id: ${this.fridgeId}`);
         }
       }
       for(let k = 0; k < this.productForm.value.products.length; k++) {

@@ -11268,8 +11268,6 @@ input::placeholder {
   padding-left: 1em;
 }
 
-
-
 .field-container {
   padding-top: 10px;
 }
@@ -11277,7 +11275,6 @@ input::placeholder {
 .text-container {
   padding-left: 6%;
 }
-
 
 .btn-delete-all {
   margin-left: 1em;
@@ -11291,8 +11288,6 @@ h2 {
   font-size: 12px;
   
 }
-
-
 
 .url-container {
   margin-top: 10px;
@@ -11309,7 +11304,10 @@ h2 {
 
 .new-product-container {
   margin-top: 1em;
-  background-color: #eaeaea;
+  background-color: rgba(92, 58, 248, 0.383);
+  -webkit-box-shadow: 5px 5px 10px -2px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 5px 5px 10px -2px rgba(34, 60, 80, 0.2);
+  box-shadow: 5px 5px 10px -2px rgba(34, 60, 80, 0.2);
 }
 
 .label-field {
@@ -11351,3 +11349,26 @@ h2 {
 .modal-header {
   background-color: rgb(105, 0, 167);
 }
+
+
+
+
+
+
+
+
+
+
+//________________________REFACTORY
+// .container {
+//   padding-top: 2em;
+// }
+
+// .btn-create {
+//   border: 0;
+//   padding: 10px 15px 10px 15px;
+//   background-color: #18bb1a;
+//   color: #ffffff;
+//   font-size: 18px;
+//   margin-bottom: 1em;
+// }

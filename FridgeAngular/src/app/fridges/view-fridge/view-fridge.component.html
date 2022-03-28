@@ -6,7 +6,7 @@
             ADD PRODUCT
         </button>
     </div>
-    <div class="row row-cols-3">
+    <div class="row row-cols-4">
         <div class="col mb-4" *ngFor="let product of listProducts$|async">
             <div class="card" style="width: 18rem;">
                 <img [src]="product.productImage" height="150" class="card-img-top" alt="Not Found">
