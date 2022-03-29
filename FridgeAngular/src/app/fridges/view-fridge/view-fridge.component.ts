@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -10,10 +9,10 @@ import { FridgeService } from 'src/app/services/fridge.service';
 })
 export class ViewFridgeComponent implements OnInit {
   fridgeId: string = '';
-
-  listProducts$!: Observable<any[]>;
   listProducts: any=[]
   product: any;
+  productName: any;
+  pages: number = 1;
 
   activateModalComponent: boolean = false;
 
@@ -22,8 +21,18 @@ export class ViewFridgeComponent implements OnInit {
   ngOnInit(): void {
     this.getFridgeId();
     this.productsCount();
-  
-    this.listProducts$ = this.fridgeService.viewFridge(this.fridgeId);
+  }
+
+  // Searching the fridge
+  Search() {
+    if (this.productName == '') {
+      this.ngOnInit();
+    }
+    else {
+      this.listProducts = this.listProducts.filter((res: { productName: string; }) => {
+        return res.productName.toLocaleLowerCase().match(this.productName.toLocaleLowerCase());
+      })
+    }
   }
 
   // Get products
@@ -50,7 +59,6 @@ export class ViewFridgeComponent implements OnInit {
   }
 
   modalClose() {
-    this.listProducts$ = this.fridgeService.viewFridge(this.fridgeId);
     this.activateModalComponent = false;
     this.productsCount();
     console.log("Page updated and modal closed");

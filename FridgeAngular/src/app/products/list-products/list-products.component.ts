@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -8,43 +7,49 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./list-products.component.scss']
 })
 export class ListProductsComponent implements OnInit {
-  listProducts$!: Observable<any[]>;
-
   listProducts: any=[];
   product: any;
-
+  productName: any;
+  pages: number = 1;
   activateModalComponent: boolean = false;
 
   constructor(private fridgeService: FridgeService) { }
 
   ngOnInit(): void {
-    this.listProducts$ = this.fridgeService.listProducts();
-    this.productCount();
+    this.getProductList();
+  }
+
+  // Searching the product
+  Search() {
+    if (this.productName == '') {
+      this.ngOnInit();
+    }
+    else {
+      this.listProducts = this.listProducts.filter((res: { productName: string; }) => {
+        return res.productName.toLocaleLowerCase().match(this.productName.toLocaleLowerCase());
+      })
+    }
   }
 
   // Get products
-  productCount() {
+  getProductList() {
     this.fridgeService.listProducts().subscribe(data => {
       this.listProducts = data;
-      for(let i = 0; i < data.length; i++) {
-        this.listProducts[i] = this.listProducts[i].id;
-      }
       console.log("Recount products");
     })
   }
 
-    // onClick for update button
-    modalUpdateOpen(product: any) {
-      this.product = product;
-      this.activateModalComponent = true;
-      console.log("Modal window open");
-    }
+  // onClick for update button
+  modalUpdateOpen(product: any) {
+    this.product = product;
+    this.activateModalComponent = true;
+    console.log("Modal window open");
+  }
 
   // onClick for close/cancel button
   modalClose() {
     this.activateModalComponent = false;
-    this.listProducts$ = this.fridgeService.listProducts();
-    this.productCount();
+    this.getProductList();
     console.log("Page updated and modal closed");
   }
 

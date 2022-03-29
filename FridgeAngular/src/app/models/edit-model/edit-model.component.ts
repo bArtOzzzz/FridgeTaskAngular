@@ -25,8 +25,8 @@ export class EditModelComponent implements OnInit {
   // Create model form
   createModelForm() {
     this.modelForm = this.formBuilder.group({
-      modelName:['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
-      productionYear:['', Validators.required]
+      modelName:[this.model.modelName, [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      productionYear:[this.model.productionYear, Validators.required]
     })
     console.log("Model form successfully created");
   }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -8,10 +7,10 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./list-fridges.component.scss']
 })
 export class ListFridgesComponent implements OnInit {
-  listFridges$!: Observable<any[]>;
-  listProducts$!: Observable<any[]>;
   listFridges: any=[]
   listModel:any=[]
+  manufacturer: any;
+  pages: number = 1;
   modalTitle: string = '';
   activateModalComponent: boolean = false;
   fridge: any;
@@ -23,12 +22,21 @@ export class ListFridgesComponent implements OnInit {
   constructor(private fridgeService: FridgeService) { }
 
   ngOnInit(): void {
-    this.listFridges$ = this.fridgeService.listFridges();
-    this.listProducts$ = this.fridgeService.listProducts();
-
     this.fridgeCount();
     this.refreshFridgeModelNameMap();
     this.refreshFridgeModelProductionYearMap();
+  }
+
+  // Searching the fridge
+  Search() {
+    if (this.manufacturer == '') {
+      this.ngOnInit();
+    }
+    else {
+      this.listFridges = this.listFridges.filter((res: { manufacturer: string; }) => {
+        return res.manufacturer.toLocaleLowerCase().match(this.manufacturer.toLocaleLowerCase());
+      })
+    }
   }
 
   // Get fridges
@@ -63,7 +71,6 @@ export class ListFridgesComponent implements OnInit {
   // onClick for close/cancel button
   modalClose() {
     this.activateModalComponent = false;
-    this.listFridges$ = this.fridgeService.listFridges();
     this.refreshFridgeModelNameMap();
     this.refreshFridgeModelProductionYearMap();
     this.fridgeCount();

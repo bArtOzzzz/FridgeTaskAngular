@@ -11351,24 +11351,48 @@ h2 {
 }
 
 
+.search-box {
+  background: #ECECF0;
+  height: 40px;
+  border-radius: 40px;
+  position: absolute;
+   margin-left: 53%;
+}
 
+.search-box:hover > .search-txt {
+  width: 240px;
+  padding: 0 6px;
+}
 
+.search-box:hover > .search-btn {
+  background: rgb(31, 8, 143);
+  color: #ffffff;
+}
 
+.search-btn {
+  color: #1da1f3;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ECECF0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-
-
-
-
-//________________________REFACTORY
-// .container {
-//   padding-top: 2em;
-// }
-
-// .btn-create {
-//   border: 0;
-//   padding: 10px 15px 10px 15px;
-//   background-color: #18bb1a;
-//   color: #ffffff;
-//   font-size: 18px;
-//   margin-bottom: 1em;
-// }
+.search-txt {
+  border: none;
+  background: none;
+  outline: none;
+  float: right;
+  padding: 0;
+  color: #000;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 40px;
+  width: 0px;
+  transition: 0.4s;
+}

@@ -11,6 +11,7 @@ import { ModelsModule } from './models/models.module';
 import { HomeModule } from './home/home.module';
 import { ProductsModule } from './products/products.module';
 import { FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     ModelsModule,
     HomeModule,
     ProductsModule,
-    FormsModule
+    FormsModule,
+    Ng2SearchPipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

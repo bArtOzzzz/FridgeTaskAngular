@@ -25,8 +25,8 @@ export class EditProductComponent implements OnInit {
   // Create product form
   createProductForm() {
     this.productForm = this.formBuilder.group({
-      productName:['', [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
-      defaultQuantity:['', Validators.required]
+      productName:[this.product.productName, [Validators.required, Validators.minLength(3), Validators.maxLength(24)]],
+      defaultQuantity:[this.product.defaultQuantity, Validators.required]
     })
     console.log("Model form successfully created");
   }

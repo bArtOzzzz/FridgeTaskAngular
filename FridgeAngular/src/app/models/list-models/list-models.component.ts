@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -8,23 +7,33 @@ import { FridgeService } from 'src/app/services/fridge.service';
   styleUrls: ['./list-models.component.scss']
 })
 export class ListModelsComponent implements OnInit {
-  listModels$!: Observable<any[]>;
   listModels: any=[];
-  listFridges: any=[];
-  listModelsToDelete: any=[];
-  model: any;
-
   listModelsId: any=[];
+  listFridges: any=[];
 
+  modelName: any;
+  model: any;
+  pages: number = 1;
+  
   activateModalComponent: boolean = false;
 
   constructor(private fridgeService: FridgeService) { }
 
   ngOnInit(): void {
-    this.listModels$ = this.fridgeService.listModels();
-
     this.modelCount();
     this.fridgesCount();
+  }
+
+  // Searching the model
+  Search() {
+    if (this.modelName == '') {
+      this.ngOnInit();
+    }
+    else {
+      this.listModels = this.listModels.filter((res: { modelName: string; }) => {
+        return res.modelName.toLocaleLowerCase().match(this.modelName.toLocaleLowerCase());
+      })
+    }
   }
 
   // Get models
@@ -49,7 +58,6 @@ export class ListModelsComponent implements OnInit {
   // onClick for close/cancel button
   modalClose() {
     this.activateModalComponent = false;
-    this.listModels$ = this.fridgeService.listModels();
     this.modelCount();
     console.log("Page updated and modal closed");
   }
