@@ -9,9 +9,7 @@ import { FridgeService } from 'src/app/services/fridge.service';
 export class ListFridgesComponent implements OnInit {
   listFridges: any=[]
   listModel:any=[]
-  manufacturer: any;
-  pages: number = 1;
-  modalTitle: string = '';
+  startPage: number = 1;
   activateModalComponent: boolean = false;
   fridge: any;
 
@@ -22,25 +20,25 @@ export class ListFridgesComponent implements OnInit {
   constructor(private fridgeService: FridgeService) { }
 
   ngOnInit(): void {
-    this.fridgeCount();
+    this.fridgeList();
     this.refreshFridgeModelNameMap();
     this.refreshFridgeModelProductionYearMap();
   }
 
-  // Searching the fridge
+  // Searching the fridge by manufacturer
   Search() {
-    if (this.manufacturer == '') {
+    if (this.listFridges.manufacturer == '') {
       this.ngOnInit();
     }
     else {
       this.listFridges = this.listFridges.filter((res: { manufacturer: string; }) => {
-        return res.manufacturer.toLocaleLowerCase().match(this.manufacturer.toLocaleLowerCase());
+        return res.manufacturer.toLocaleLowerCase().match(this.listFridges.manufacturer.toLocaleLowerCase());
       })
     }
   }
 
   // Get fridges
-  fridgeCount() {
+  fridgeList() {
     this.fridgeService.listFridges().subscribe(data => {
       this.listFridges = data;
       console.log("Recount fridges");
@@ -55,7 +53,6 @@ export class ListFridgesComponent implements OnInit {
       ownerName: "",
       modelId: null
     }
-    this.modalTitle = "Create new fridge";
     this.activateModalComponent = true;
     console.log("Modal window open");
   }
@@ -63,7 +60,6 @@ export class ListFridgesComponent implements OnInit {
   // onClick for update button
   modalUpdateOpen(fridge: any) {
     this.fridge = fridge;
-    this.modalTitle = "Update fridge";
     this.activateModalComponent = true;
     console.log("Modal window open");
   }
@@ -73,15 +69,14 @@ export class ListFridgesComponent implements OnInit {
     this.activateModalComponent = false;
     this.refreshFridgeModelNameMap();
     this.refreshFridgeModelProductionYearMap();
-    this.fridgeCount();
+    this.fridgeList();
     console.log("Page updated and modal closed");
   }
 
-  // Get fridge model by id
+  // Get model by id
   refreshFridgeModelNameMap() {
     this.fridgeService.listModels().subscribe(data => {
       this.listModel = data;
-
       for(let i = 0; i < data.length; i++) {
         this.fridgeModelNameMap.set(this.listModel[i].id, this.listModel[i].modelName);
       }
@@ -93,7 +88,6 @@ export class ListFridgesComponent implements OnInit {
   refreshFridgeModelProductionYearMap() {
     this.fridgeService.listModels().subscribe(data => {
       this.listModel = data;
-
       for(let i = 0; i < data.length; i++) {
         this.fridgeModelProductionYearMap.set(this.listModel[i].id, this.listModel[i].productionYear);
       }
@@ -107,7 +101,6 @@ export class ListFridgesComponent implements OnInit {
       this.fridgeService.deleteFridge(fridgeId).subscribe(data => {
         console.log("Fridge deleted successfully");
         this.modalClose();
-
         var showDeleteSuccess = document.getElementById('delete-success-alert');
         if (showDeleteSuccess) {
           showDeleteSuccess.style.display = "block";
@@ -118,7 +111,7 @@ export class ListFridgesComponent implements OnInit {
             showDeleteSuccess.style.display = "none";
           }
         }, 4000);
-        this.fridgeCount();
+        this.fridgeList();
       })
     }
     else {

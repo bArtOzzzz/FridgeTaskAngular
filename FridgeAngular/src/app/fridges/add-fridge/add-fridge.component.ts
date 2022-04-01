@@ -18,7 +18,6 @@ export class AddFridgeComponent implements OnInit {
   isProductChecked = false;
 
   listModel$!: Observable<any[]>;
-  producFields: Array<any> = []
   listFridgeId: any=[]
 
   fridgeId: string = '';
@@ -160,7 +159,6 @@ export class AddFridgeComponent implements OnInit {
           if(this.modelForm.value.modelName == data[i].modelName) {
             this.fridgeForm.value.modelId = data[i].id;
             console.log("New model added to FridgeForm successfully");
-            console.log(this.fridgeForm.value);
           }
         }
         this.createFridge();

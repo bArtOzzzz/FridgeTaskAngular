@@ -1,7 +1,7 @@
 <form [formGroup]="fridgeForm" (ngSubmit)="onSubmit()">
     <!-- Main fridge create part -->
     <div class="form-group">
-        <label for="manufacturer">Manufacturer:</label>
+        <label for="manufacturer">*Manufacturer:</label>
         <input formControlName="manufacturer" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['manufacturer'].errors}" type="text" class="form-control" placeholder="Enter manufacturer">
         <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors" class="text-danger">
             <div *ngIf="submitted && fridgeForm.controls['manufacturer'].errors['required']">
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="ownerName">Name:</label>
+        <label for="ownerName">*Name:</label>
         <input formControlName="ownerName" [ngClass]="{'is-invalid':submitted && fridgeForm.controls['ownerName'].errors}" type="text" class="form-control" placeholder="Enter your name">
         <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors" class="text-danger">
             <div *ngIf="submitted && fridgeForm.controls['ownerName'].errors['required']">
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="modelId">Choose model:</label>
+        <label for="modelId">*Choose model:</label>
         <select formControlName="modelId" id="disable-select-field" [ngClass]="{'is-invalid':submitted && !isModelChecked && fridgeForm.controls['modelId'].errors}" class="form-control">
             <option *ngFor="let model of listModel$|async" [value]="model.id">{{model.modelName}}</option>
         </select>
@@ -47,7 +47,7 @@
         <input (click)="activeModelForm()" class="form-check-input" type='checkbox' id='newModelCheck' onchange='showOrHide("newModelCheck", "newModel", "disable-select-field");'/>
         <div class="additive-container" id="newModel" [formGroup]="modelForm" *ngIf="isModelChecked">
             <div class="form-group">
-                <label for="modelName">Model:</label>
+                <label for="modelName">*Model:</label>
                 <input formControlName="modelName" [ngClass]="{'is-invalid':submitted && modelForm.controls['modelName'].errors}" class="form-control" type="text" placeholder="Enter model name">
                 <div *ngIf="submitted && modelForm.controls['modelName'].errors" class="text-danger">
                     <div *ngIf="submitted && modelForm.controls['modelName'].errors['required']">
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="productionYear">Production year:</label>
+                <label for="productionYear">*Production year:</label>
                 <input formControlName="productionYear" [ngClass]="{'is-invalid':submitted && modelForm.controls['productionYear'].errors}" class="form-control" type="number" min="1900" max="2022" placeholder="Year">
                 <div *ngIf="submitted && modelForm.controls['productionYear'].errors" class="text-danger">
                     <div *ngIf="submitted && modelForm.controls['productionYear'].errors['required']">

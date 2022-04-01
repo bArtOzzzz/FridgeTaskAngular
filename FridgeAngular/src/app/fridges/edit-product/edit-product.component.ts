@@ -10,14 +10,11 @@ import { FridgeService } from 'src/app/services/fridge.service';
 export class EditProductComponent implements OnInit {
   productUpdateForm!: FormGroup
   submitted = false;
-
   @Input() product:any;
-  id!: number;
 
   constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.id = this.product.id;
     this.createProductForm();
   }
 
@@ -34,7 +31,6 @@ export class EditProductComponent implements OnInit {
   // Submitting the form
   onSubmit() {
     this.submitted = true;
-
     if (this.productUpdateForm.invalid) {  
       return 
     }
@@ -45,19 +41,17 @@ export class EditProductComponent implements OnInit {
   // Update fridge  
   updateProduct() {
     var product = {
-      id: this.id,
+      id: this.product.id,
       productName: this.productUpdateForm.value.productName,
       defaultQuantity: this.productUpdateForm.value.defaultQuantity,
       productImage: this.productUpdateForm.value.productImage
     }
-
-    this.fridgeService.updateProduct(this.id, product).subscribe(data => {
+    this.fridgeService.updateProduct(this.product.id, product).subscribe(data => {
+      console.log(`Product with id ${this.product.id} successfully updated`);
       var closeModalBtn = document.getElementById('update-product-modal-close');
       if (closeModalBtn) {
         closeModalBtn.click();
-        console.log(`Product with id ${this.id} successfully updated`);
       }
-
       var showUpdateSuccess = document.getElementById('update-success-alert');
       if (showUpdateSuccess) {
         showUpdateSuccess.style.display = "block";
