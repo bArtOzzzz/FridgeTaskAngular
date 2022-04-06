@@ -102,10 +102,21 @@
                                 </div>
                                 <div class="row row-cols-2">
                                     <div class="col">
-                                        <input formControlName="productName" class="form-control productItem" type="text" placeholder="Enter name">
+                                        <input formControlName="productName" [ngClass]="{'is-invalid':submitted && product.controls['productName'].errors}" class="form-control productItem" type="text" placeholder="Enter name">
+                                        <div *ngIf="submitted && product.controls['productName'].errors" class="text-danger">
+                                            <div *ngIf="submitted && product.controls['productName'].errors['required']">
+                                                Name is required*
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <input formControlName="defaultQuantity" class="form-control productItem" type="number" placeholder="Enter quantity">
+                                        <input formControlName="defaultQuantity" [ngClass]="{'is-invalid':submitted && product.controls['defaultQuantity'].errors}" class="form-control productItem" type="number" placeholder="Enter quantity">
+                                        
+                                        <div *ngIf="submitted && product.controls['defaultQuantity'].errors" class="text-danger">
+                                            <div *ngIf="submitted && product.controls['defaultQuantity'].errors['required']">
+                                                Quantity is required*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row url-container">

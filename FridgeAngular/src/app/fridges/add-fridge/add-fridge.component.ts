@@ -25,8 +25,8 @@ export class AddFridgeComponent implements OnInit {
   productData = {
     products: [
       {
-        productName: '',
-        defaultQuantity: '',
+        productName: ['', Validators.required],
+        defaultQuantity: ['', Validators.required],
         productImage: ''
       }
     ]
@@ -47,8 +47,8 @@ export class AddFridgeComponent implements OnInit {
   addNewProduct() {
     this.productsFormArr.push(
       this.formBuilder.group({
-        productName: [''],
-        defaultQuantity: [''],
+        productName: ['', Validators.required],
+        defaultQuantity: ['', Validators.required],
         productImage: ['']
       })
     );
@@ -174,10 +174,13 @@ export class AddFridgeComponent implements OnInit {
           console.log(`Fridge was define by id: ${this.fridgeId}`);
         }
       }
+      console.log(this.productForm.value.products.length);
       for(let k = 0; k < this.productForm.value.products.length; k++) {
-        this.fridgeService.createProduct(this.fridgeId, this.productForm.value.products[k]).subscribe(ref => {
-          console.log("Product was added");
-        })
+        if(this.productForm.value.products[k].productName.length > 0 && this.productForm.value.products[k].defaultQuantity > 0) {
+          this.fridgeService.createProduct(this.fridgeId, this.productForm.value.products[k]).subscribe(ref => {
+            console.log("Product was added");
+          })
+        }
       }
       console.log("All products was added successfully");
     })
