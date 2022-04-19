@@ -65,4 +65,9 @@ export class FridgeService {
   updateProduct(productId: number, data: any) {
     return this.http.put(this.baseUrl + '/product/' + productId, data, {responseType: "text"});
   }
+
+  // User
+  createUser(data: any) {
+    return this.http.post(this.baseUrl + '/user', data, {responseType: "text"})
+  }
 }
