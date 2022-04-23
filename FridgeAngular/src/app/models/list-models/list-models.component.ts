@@ -21,7 +21,6 @@ export class ListModelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.modelCount();
-    this.fridgesCount();
   }
 
   // Searching the model
@@ -44,14 +43,6 @@ export class ListModelsComponent implements OnInit {
         this.listModelsId[i] = this.listModels[i].id;
       }
       console.log("Recount models");
-    })
-  }
-
-  // Get fridges
-  fridgesCount() {
-    this.fridgeService.listFridges().subscribe(data => {
-      this.listFridges = data;
-      console.log("Getting list of fridges");
     })
   }
 

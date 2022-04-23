@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, retry } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +68,10 @@ export class FridgeService {
 
   // User
   createUser(data: any) {
-    return this.http.post(this.baseUrl + '/user', data, {responseType: "text"})
+    return this.http.post(this.baseUrl + '/user', data, {responseType: "text"});
+  }
+
+  login(data: any) {
+    return this.http.post(this.baseUrl + '/jwtToken', data, {withCredentials: true});
   }
 }
