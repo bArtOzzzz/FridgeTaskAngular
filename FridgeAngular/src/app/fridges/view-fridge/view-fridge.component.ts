@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ViewFridgeComponent implements OnInit {
 
   activateModalComponent: boolean = false;
 
-  constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute) { }
+  constructor(private fridgeService: FridgeService, private activatedRoute: ActivatedRoute, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.getFridgeId();

@@ -11205,7 +11205,7 @@
   .button-container {
     margin-left: 10px;
 }
-// _________________________________________________Styles_Used____________________________________________________
+
 #create-success-alert,
 #delete-success-alert,
 #update-success-alert {
@@ -11350,13 +11350,11 @@ h2 {
   background-color: rgb(105, 0, 167);
 }
 
-
 .search-box {
   background: #ECECF0;
   height: 40px;
   border-radius: 40px;
-  position: absolute;
-   margin-left: 53%;
+  margin-left: 57%;
 }
 
 .search-box:hover > .search-txt {
@@ -11395,4 +11393,12 @@ h2 {
   line-height: 40px;
   width: 0px;
   transition: 0.4s;
+}
+
+.action-container {
+  margin-bottom: 2%;
+}
+
+.card-line {
+  background-color: rgb(100, 8, 162);
 }

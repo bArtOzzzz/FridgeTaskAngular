@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth.service';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class ListFridgesComponent implements OnInit {
   fridgeModelNameMap:Map<number, string> = new Map();
   fridgeModelProductionYearMap:Map<number, string> = new Map();
 
-  constructor(private fridgeService: FridgeService) { }
+  constructor(private fridgeService: FridgeService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.fridgeList();

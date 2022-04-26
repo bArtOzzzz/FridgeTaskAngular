@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { FridgesModule } from './fridges/fridges.module';
 import { LayoutModule } from './layout/layout.module';
 import { ModelsModule } from './models/models.module';
-import { HomeModule } from './home/home.module';
 import { ProductsModule } from './products/products.module';
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -24,7 +23,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HttpClientModule,
     LayoutModule,
     ModelsModule,
-    HomeModule,
     ProductsModule,
     FormsModule,
     Ng2SearchPipeModule

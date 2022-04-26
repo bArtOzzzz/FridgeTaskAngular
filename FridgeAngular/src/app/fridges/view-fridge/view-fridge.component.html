@@ -1,7 +1,7 @@
 <div class="container pt-3">
     <h2 *ngIf="fridgeId">Display {{listProducts.length}} products</h2>
-    <div class="d-flex mt-3">
-        <button type="button" class="btn btn-success mb-4" data-bs-toggle="modal" data-bs-target="#createProduct" (click)="modalCreateOpen()">
+    <div class="d-flex mt-3 action-container">
+        <button *ngIf="authService.isLoggedIn$ | async" type="button" class="btn btn-success mb-4" data-bs-toggle="modal" data-bs-target="#createProduct" (click)="modalCreateOpen()">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
             ADD PRODUCT
         </button>
@@ -21,9 +21,9 @@
                     <p class="card-text">Description.</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">In stock: {{product.defaultQuantity}}</li>
+                    <li class="list-group-item card-line">In stock: {{product.defaultQuantity}}</li>
                 </ul>
-                <div class="card-body">
+                <div class="card-body" *ngIf="authService.isLoggedIn$ | async">
                     <a class="card-link" data-bs-toggle="modal" data-bs-target="#updateProduct" (click)="modalUpdateOpen(product)">Edit</a>
                     <a class="card-link" (click)="deleteProduct(product)">Delete</a>
                 </div>

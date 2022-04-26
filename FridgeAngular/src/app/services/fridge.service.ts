@@ -67,11 +67,15 @@ export class FridgeService {
   }
 
   // User
+  getUser() {
+    return this.http.get(this.baseUrl + '/user');
+  }
+
   createUser(data: any) {
     return this.http.post(this.baseUrl + '/user', data, {responseType: "text"});
   }
 
   login(data: any) {
-    return this.http.post(this.baseUrl + '/jwtToken', data, {withCredentials: true});
+    return this.http.post(this.baseUrl + '/jwtToken', data, {withCredentials: true, responseType: "text"});
   }
 }

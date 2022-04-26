@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth.service';
 import { FridgeService } from 'src/app/services/fridge.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class ListProductsComponent implements OnInit {
   pages: number = 1;
   activateModalComponent: boolean = false;
 
-  constructor(private fridgeService: FridgeService) { }
+  constructor(private fridgeService: FridgeService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.getProductList();

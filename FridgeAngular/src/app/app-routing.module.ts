@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListFridgesComponent } from './fridges/list-fridges/list-fridges.component';
 import { ViewFridgeComponent } from './fridges/view-fridge/view-fridge.component';
-import { HomePageComponent } from './home/home-page/home-page.component';
+import { HomePageComponent } from './layout/home-page/home-page.component';
 import { LoginComponent } from './layout/login/login.component';
 import { RegisterComponent } from './layout/register/register.component';
 import { ListModelsComponent } from './models/list-models/list-models.component';

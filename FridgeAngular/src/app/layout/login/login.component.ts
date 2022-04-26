@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FridgeService } from 'src/app/services/fridge.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,9 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted = false;
 
-  constructor(private fridgeService: FridgeService, private formBuilder: FormBuilder, private router: Router, private http: HttpClient) { }
+  constructor(private authService: AuthService,
+              private formBuilder: FormBuilder, 
+              private router: Router) {}
 
   ngOnInit(): void {
     this.createLoginForm();
@@ -33,13 +34,15 @@ export class LoginComponent implements OnInit {
     }
     else {
       console.log("Please, check your password or email address");
+      return;
     }
   }
 
   login() {
-    this.fridgeService.login(this.loginForm.value).subscribe(ref => {
-      console.log("User login succefffully");
-      // this.router.navigate(['/']);
+    this.authService.login(this.loginForm.value).subscribe(response => {
+      // console.log("User login succefffully");
+      // console.log(this.loginForm.value);
+      this.router.navigate(['/home']);
     })
   }
 }
