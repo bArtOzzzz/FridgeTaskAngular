@@ -1,0 +1,47 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="userName">Name:</label>
+        <input formControlName="userName" [ngClass]="{'is-invalid':submitted && userForm.controls['userName'].errors}" class="form-control" type="text" placeholder="Enter user name">
+        <div *ngIf="submitted && userForm.controls['userName'].errors" class="text-danger">
+            <div *ngIf="submitted && userForm.controls['userName'].errors['required']">
+                Name is required*
+            </div>
+            <div *ngIf="submitted && userForm.controls['userName'].errors['minlength']">
+                Length must be 3-24 character*
+            </div>
+            <div *ngIf="submitted && userForm.controls['userName'].errors['maxlength']">
+                Length must be 3-24 character*
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="gmail">Gmail:</label>
+        <input formControlName="gmail" [ngClass]="{'is-invalid':submitted && userForm.controls['gmail'].errors}" class="form-control" type="email" placeholder="Gmail">
+        <div *ngIf="submitted && userForm.controls['gmail'].errors" class="text-danger">
+            <div *ngIf="submitted && userForm.controls['gmail'].errors['required']">
+                Gmail is required*
+            </div>
+            <div *ngIf="submitted && userForm.controls['gmail'].errors['email']">
+                Wrong format*
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input formControlName="password" [ngClass]="{'is-invalid':submitted && userForm.controls['password'].errors}" class="form-control" type="text" placeholder="Password">
+        <div *ngIf="submitted && userForm.controls['password'].errors" class="text-danger">
+            <div *ngIf="submitted && userForm.controls['password'].errors['required']">
+                Password is required*
+            </div>
+            <div *ngIf="submitted && userForm.controls['password'].errors['min']">
+                Length must be 8-24 symbols*
+            </div>
+            <div *ngIf="submitted && userForm.controls['password'].errors['max']">
+                Length must be 8-24 symbols*
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success add-button float-end">Save</button>
+    </div>
+</form>

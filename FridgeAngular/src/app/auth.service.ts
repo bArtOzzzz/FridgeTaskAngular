@@ -8,18 +8,22 @@ import { FridgeService } from './services/fridge.service';
 export class AuthService {
 
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  private readonly TOKEN_NAME = 'fridgeTaskToken';
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
+  get token() {
+    return localStorage.getItem(this.TOKEN_NAME);
+  }
+
   constructor(private fridgeService: FridgeService) { 
-    const token =  localStorage.getItem('jwt');
-    this._isLoggedIn$.next(!!token);
+    this._isLoggedIn$.next(!!this.token);
   }
 
   login(data: any) {
     return this.fridgeService.login(data).pipe(
       tap(response => {
         this._isLoggedIn$.next(true);
-        localStorage.setItem('jwt', response);
+        localStorage.setItem(this.TOKEN_NAME, response);
       })
     );
   }

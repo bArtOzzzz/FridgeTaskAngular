@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListModelsComponent } from './list-models/list-models.component';
-import { AddModelComponent } from './add-model/add-model.component';
+import { ListUsersComponent } from './list-users/list-users.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditModelComponent } from './edit-model/edit-model.component';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LayoutModule } from '../layout/layout.module';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 
 
 @NgModule({
   declarations: [
-    ListModelsComponent,
-    AddModelComponent,
-    EditModelComponent
+    ListUsersComponent,
+    EditUserComponent
   ],
   imports: [
     CommonModule,
@@ -25,4 +23,4 @@ import { LayoutModule } from '../layout/layout.module';
     LayoutModule
   ]
 })
-export class ModelsModule { }
+export class UsersModule { }

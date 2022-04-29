@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
       gmail: this.registerForm.value.gmail,
       password: this.registerForm.value.password
     }
-    this.fridgeService.createUser(user).subscribe(ref => {
+    this.fridgeService.createUser(user).subscribe(res => {
       console.log("User successfully created");
       this.router.navigate(['/loginPage']);
     })

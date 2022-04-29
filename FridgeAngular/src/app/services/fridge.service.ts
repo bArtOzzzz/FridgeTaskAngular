@@ -75,6 +75,14 @@ export class FridgeService {
     return this.http.post(this.baseUrl + '/user', data, {responseType: "text"});
   }
 
+  updateUser(userId: string, data: any) {
+    return this.http.put(this.baseUrl + "/user/" + userId, data, {responseType: "text"});
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete(this.baseUrl + '/user/' + userId);
+  }
+
   login(data: any) {
     return this.http.post(this.baseUrl + '/jwtToken', data, {withCredentials: true, responseType: "text"});
   }

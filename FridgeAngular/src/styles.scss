@@ -11286,7 +11286,6 @@ h2 {
 
 .input-url {
   font-size: 12px;
-  
 }
 
 .url-container {
@@ -11354,7 +11353,7 @@ h2 {
   background: #ECECF0;
   height: 40px;
   border-radius: 40px;
-  margin-left: 57%;
+  margin-left: 30%;
 }
 
 .search-box:hover > .search-txt {
@@ -11401,4 +11400,13 @@ h2 {
 
 .card-line {
   background-color: rgb(100, 8, 162);
+}
+
+.main {
+  min-height: calc(100vh - 140px);
+}
+
+.title-container {
+  padding-top: 30px;
+  padding-bottom: 1em;
 }
